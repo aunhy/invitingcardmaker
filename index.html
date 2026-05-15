@@ -3,147 +3,599 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>초대장</title>
+  <title id="page-title">초대장</title>
   <script src="config.js"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   <style>
-    :root { --bg: #f2f2f7; --card: #ffffff; --blue: #007AFF; --orange: #FF9500; --gray: #8e8e93; }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Pretendard', sans-serif; background: var(--bg); color: #1c1c1e; padding: 20px 16px 80px; line-height: 1.5; }
-    .page { max-width: 460px; margin: 0 auto; }
-    .hero { background: #1c1c1e; color: #fff; padding: 44px 24px; border-radius: 28px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-    .hero-tag { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.15); color: #30D158; font-size: 12px; font-weight: 700; padding: 5px 12px; border-radius: 100px; margin-bottom: 16px; }
-    .hero h1 { font-size: 26px; font-weight: 800; margin-bottom: 12px; }
-    .chip { display: inline-block; background: rgba(255,255,255,0.1); padding: 7px 12px; border-radius: 10px; font-size: 13px; margin-right: 6px; }
-    .section-title { font-size: 13px; font-weight: 700; color: var(--gray); margin: 30px 0 10px 8px; }
-    .card { background: var(--card); border-radius: 24px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.04); margin-bottom: 12px; }
-    .venue-item { display: flex; align-items: center; gap: 15px; padding: 15px 0; border-bottom: 1px solid #f2f2f7; }
-    .v-icon { width: 45px; height: 45px; background: #f2f2f7; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
-    .v-info { flex: 1; }
-    .v-step { font-size: 11px; font-weight: 800; color: var(--blue); }
-    .v-name { font-size: 16px; font-weight: 700; }
-    .v-map { text-decoration: none; background: #1c1c1e; padding: 8px 12px; border-radius: 10px; font-size: 12px; color: #fff; }
-    .opt-btn { padding: 16px; background: #f2f2f7; border-radius: 14px; cursor: pointer; border: 2px solid transparent; font-weight: 600; margin-bottom: 8px; }
-    .opt-btn.selected { background: #eef7ff; border-color: var(--blue); color: var(--blue); }
-    .submit-btn { width: 100%; padding: 18px; background: var(--blue); color: #fff; border: none; border-radius: 18px; font-size: 16px; font-weight: 700; cursor: pointer; }
-    .stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; text-align: center; }
-    .stat-box { background: #fff; padding: 15px; border-radius: 18px; }
-    .stat-num { display: block; font-size: 20px; font-weight: 800; }
-    .res-card { background: #1c1c1e; color: #fff; padding: 24px; border-radius: 24px; }
+
+    body {
+      font-family: 'Pretendard', -apple-system, sans-serif;
+      background: #F5F5F7;
+      color: #191919;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .page {
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 0 0 80px;
+    }
+
+    /* ── 히어로 ── */
+    .hero {
+      background: #191919;
+      color: #fff;
+      padding: 52px 24px 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 220px; height: 220px;
+      background: #2C2C2E;
+      border-radius: 50%;
+    }
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #2C2C2E;
+      color: #A3A3A3;
+      font-size: 12px;
+      font-weight: 500;
+      padding: 5px 10px;
+      border-radius: 100px;
+      margin-bottom: 20px;
+      position: relative;
+    }
+    .hero-tag-dot {
+      width: 6px; height: 6px;
+      background: #30D158;
+      border-radius: 50%;
+    }
+    .hero h1 {
+      font-size: 28px;
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: 8px;
+      position: relative;
+    }
+    .hero h2 {
+      font-size: 16px;
+      font-weight: 400;
+      color: #A3A3A3;
+      margin-bottom: 28px;
+      position: relative;
+    }
+    .hero-chips {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      position: relative;
+    }
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #2C2C2E;
+      color: #E5E5EA;
+      font-size: 13px;
+      font-weight: 500;
+      padding: 7px 14px;
+      border-radius: 100px;
+    }
+    .chip-emoji { font-size: 15px; }
+
+    /* ── 섹션 ── */
+    .section { padding: 24px 20px 0; }
+
+    .section-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: #8E8E93;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    /* ── 카드 기본 ── */
+    .card {
+      background: #fff;
+      border-radius: 20px;
+      overflow: hidden;
+    }
+
+    /* ── 본문 카드 ── */
+    .intro-card {
+      background: #fff;
+      border-radius: 20px;
+      padding: 20px;
+      font-size: 15px;
+      line-height: 1.75;
+      color: #3C3C43;
+      white-space: pre-line;
+    }
+    .intro-card strong { color: #191919; font-weight: 600; }
+
+    /* ── 장소 카드 ── */
+    .venue-list { display: flex; flex-direction: column; gap: 2px; }
+    .venue-item {
+      background: #fff;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .venue-item:first-child { border-radius: 20px 20px 4px 4px; }
+    .venue-item:last-child  { border-radius: 4px 4px 20px 20px; }
+    .venue-item:only-child  { border-radius: 20px; }
+    .venue-icon {
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      background: #F5F5F7;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+    .venue-info { flex: 1; min-width: 0; }
+    .venue-round {
+      font-size: 11px;
+      font-weight: 600;
+      color: #8E8E93;
+      margin-bottom: 2px;
+    }
+    .venue-name {
+      font-size: 15px;
+      font-weight: 600;
+      color: #191919;
+      margin-bottom: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .venue-desc {
+      font-size: 13px;
+      color: #8E8E93;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .venue-map-btn {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: #F5F5F7;
+      color: #007AFF;
+      font-size: 13px;
+      font-weight: 500;
+      padding: 7px 12px;
+      border-radius: 100px;
+      text-decoration: none;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    /* 팁/경고 */
+    .venue-extra {
+      background: #F5F5F7;
+      margin: 0 20px 14px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      font-size: 13px;
+      color: #3C3C43;
+    }
+    .venue-extra-tip  { border-left: 3px solid #30D158; }
+    .venue-extra-warn { border-left: 3px solid #FF9F0A; }
+    .venue-extra strong { font-weight: 600; }
+
+    /* ── RSVP 카드 ── */
+    .rsvp-card {
+      background: #fff;
+      border-radius: 20px;
+      padding: 20px;
+    }
+    .deadline-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: #FFF3E0;
+      color: #E65100;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 100px;
+      margin-bottom: 16px;
+    }
+    .field { margin-bottom: 14px; }
+    .field label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      color: #8E8E93;
+      margin-bottom: 6px;
+    }
+    .field input, .field textarea {
+      width: 100%;
+      background: #F5F5F7;
+      border: none;
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-family: 'Pretendard', sans-serif;
+      font-size: 15px;
+      color: #191919;
+      outline: none;
+      transition: background 0.15s;
+    }
+    .field input:focus, .field textarea:focus { background: #EBEBF0; }
+    .field textarea { resize: vertical; min-height: 72px; }
+
+    .rsvp-options { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
+    .rsvp-opt {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #F5F5F7;
+      padding: 13px 16px;
+      border-radius: 14px;
+      cursor: pointer;
+      transition: background 0.15s;
+      border: 2px solid transparent;
+    }
+    .rsvp-opt.selected {
+      background: #EBF5FF;
+      border-color: #007AFF;
+    }
+    .rsvp-opt input { display: none; }
+    .rsvp-opt-icon { font-size: 20px; }
+    .rsvp-opt-label { font-size: 15px; font-weight: 500; color: #191919; }
+
+    .submit-btn {
+      width: 100%;
+      background: #191919;
+      color: #fff;
+      border: none;
+      border-radius: 14px;
+      padding: 15px;
+      font-family: 'Pretendard', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.15s, transform 0.1s;
+    }
+    .submit-btn:hover   { opacity: 0.85; }
+    .submit-btn:active  { transform: scale(0.98); }
+    .submit-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .form-msg {
+      margin-top: 10px;
+      font-size: 13px;
+      text-align: center;
+      min-height: 18px;
+      font-weight: 500;
+    }
+
+    /* ── 참석 현황 ── */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .stat-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 14px 16px;
+      text-align: center;
+    }
+    .stat-num {
+      font-size: 24px;
+      font-weight: 700;
+      color: #191919;
+      display: block;
+    }
+    .stat-label {
+      font-size: 12px;
+      color: #8E8E93;
+      font-weight: 500;
+      margin-top: 2px;
+    }
+
+    .response-list { display: flex; flex-direction: column; gap: 2px; }
+    .response-item {
+      background: #fff;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .response-item:first-child { border-radius: 20px 20px 4px 4px; }
+    .response-item:last-child  { border-radius: 4px 4px 20px 20px; }
+    .response-item:only-child  { border-radius: 20px; }
+    .response-avatar {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: #F5F5F7;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+    .response-info { flex: 1; min-width: 0; }
+    .response-name { font-size: 14px; font-weight: 600; color: #191919; }
+    .response-msg  { font-size: 13px; color: #8E8E93; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 1px; }
+    .status-badge {
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 100px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .badge-attend { background: #E8F9EE; color: #1A7F37; }
+    .badge-late   { background: #FFF3E0; color: #B45309; }
+    .badge-no     { background: #FEE8E8; color: #C0392B; }
+
+    .empty-state {
+      background: #fff;
+      border-radius: 20px;
+      padding: 32px 20px;
+      text-align: center;
+      color: #8E8E93;
+      font-size: 14px;
+    }
+    .empty-state .empty-icon { font-size: 36px; margin-bottom: 8px; }
+
+    /* ── 예약 카드 ── */
+    .reservation-card {
+      background: #191919;
+      color: #fff;
+      border-radius: 20px;
+      padding: 20px;
+    }
+    .res-label { font-size: 12px; font-weight: 600; color: #8E8E93; margin-bottom: 4px; }
+    .res-name  { font-size: 28px; font-weight: 700; color: #fff; margin-bottom: 12px; }
+    .res-desc  { font-size: 14px; color: #A3A3A3; line-height: 1.7; }
+
+    /* 애니메이션 */
+    .fade-up { opacity: 0; transform: translateY(16px); animation: fu 0.5s ease forwards; }
+    @keyframes fu { to { opacity:1; transform:translateY(0); } }
+    .d1{animation-delay:.08s} .d2{animation-delay:.16s} .d3{animation-delay:.24s}
+    .d4{animation-delay:.32s} .d5{animation-delay:.40s} .d6{animation-delay:.48s}
+
+    footer { padding: 32px; text-align: center; font-size: 12px; color: #C7C7CC; }
   </style>
 </head>
 <body>
-
 <div class="page">
-  <div class="hero">
-    <div class="hero-tag">참석 응답 받는 중</div>
-    <h1 id="v-title">불러오는 중...</h1>
-    <span class="chip">📅 <span id="v-date"></span></span>
-    <span class="chip">🕕 <span id="v-time"></span></span>
+
+  <!-- 히어로 -->
+  <div class="hero fade-up">
+    <div class="hero-tag">
+      <span class="hero-tag-dot"></span>
+      참석 응답 받는 중
+    </div>
+    <h1 id="hero-title"></h1>
+    <h2 id="hero-subtitle"></h2>
+    <div class="hero-chips">
+      <span class="chip"><span class="chip-emoji">📅</span><span id="hero-date"></span></span>
+      <span class="chip"><span class="chip-emoji">🕕</span><span id="hero-time"></span></span>
+    </div>
   </div>
 
-  <div class="section-title">초대의 말</div>
-  <div class="card" id="v-desc" style="white-space: pre-line;"></div>
-
-  <div class="section-title">장소 안내</div>
-  <div id="v-venues"></div>
-
-  <div class="section-title">참석 여부</div>
-  <div class="card">
-    <div style="margin-bottom:15px; font-weight:700; color:var(--orange);">⏰ <span id="v-deadline"></span>까지 회신</div>
-    <input type="text" id="i-name" placeholder="성함" style="width:100%; padding:14px; border-radius:12px; border:1px solid #eee; margin-bottom:10px;">
-    <div id="v-opts"></div>
-    <textarea id="i-msg" placeholder="한마디" style="width:100%; padding:14px; border-radius:12px; border:1px solid #eee; margin-top:10px;"></textarea>
-    <button class="submit-btn" id="s-btn" onclick="doSubmit()" style="margin-top:15px;">참석 여부 보내기</button>
-    <p id="f-msg" style="text-align:center; margin-top:10px; font-size:13px;"></p>
+  <!-- 본문 -->
+  <div class="section fade-up d1">
+    <div class="section-title">초대의 말</div>
+    <div class="intro-card" id="intro-text"></div>
   </div>
 
-  <div class="section-title">참석 현황</div>
-  <div class="stats">
-    <div class="stat-box"><span class="stat-num" id="s-total">0</span>전체</div>
-    <div class="stat-box"><span class="stat-num" id="s-attend">0</span>참석</div>
-    <div class="stat-box"><span class="stat-num" id="s-no">0</span>불참</div>
+  <!-- 장소 -->
+  <div class="section fade-up d2">
+    <div class="section-title">장소 안내</div>
+    <div class="venue-list" id="venue-list"></div>
   </div>
 
-  <div class="section-title">예약 안내</div>
-  <div class="res-card">
-    <div style="font-size:12px; color:var(--gray)">예약명</div>
-    <div id="v-resname" style="font-size:24px; font-weight:800; color:var(--blue)"></div>
+  <!-- RSVP -->
+  <div class="section fade-up d3">
+    <div class="section-title">참석 여부 알려주기</div>
+    <div class="rsvp-card">
+      <div class="deadline-badge">⏰ <span id="deadline-text"></span>까지 회신</div>
+      <div class="field">
+        <label>성함</label>
+        <input type="text" id="rsvp-name" placeholder="이름을 입력해주세요" />
+      </div>
+      <div class="rsvp-options" id="rsvp-options"></div>
+      <div class="field">
+        <label>한마디 (선택)</label>
+        <textarea id="rsvp-msg" placeholder="짧은 메시지를 남겨주세요 :)"></textarea>
+      </div>
+      <button class="submit-btn" id="submit-btn" onclick="submitRSVP()">참석 여부 보내기</button>
+      <p class="form-msg" id="form-msg"></p>
+    </div>
   </div>
+
+  <!-- 참석 현황 -->
+  <div class="section fade-up d4">
+    <div class="section-title">참석자 현황</div>
+    <div class="stats-row">
+      <div class="stat-card"><span class="stat-num" id="stat-total">–</span><div class="stat-label">전체</div></div>
+      <div class="stat-card"><span class="stat-num" id="stat-attend">–</span><div class="stat-label">참석</div></div>
+      <div class="stat-card"><span class="stat-num" id="stat-no">–</span><div class="stat-label">불참</div></div>
+    </div>
+    <div id="response-container">
+      <div class="empty-state"><div class="empty-icon">🔄</div>불러오는 중...</div>
+    </div>
+  </div>
+
+  <!-- 예약 -->
+  <div class="section fade-up d5">
+    <div class="section-title">예약 안내</div>
+    <div class="reservation-card">
+      <div class="res-label">예약명</div>
+      <div class="res-name" id="res-name"></div>
+      <div class="res-desc">먼저 도착하시는 분은 예약 성함을 말씀하시고 편하게 계시면 됩니다. 저희는 퇴근 후 최대한 빨리 넘어갈게요! 그날 뵙겠습니다 😊</div>
+    </div>
+  </div>
+
+  <footer>made with ♥</footer>
 </div>
 
 <script>
-// 2. 데이터가 로드될 때까지 기다리는 안전장치
-window.onload = function() {
-  const data = window.EVENT_CONFIG;
-  if(!data) {
-    document.getElementById('v-title').innerText = "데이터 오류 (config.js 확인)";
-    return;
-  }
+var VENUE_ICONS = ['🍖','🍗','🍺','🍣','🍜','🍕','🥗','🍱'];
 
-  // 화면 그리기
-  document.getElementById('v-title').innerText = data.title;
-  document.getElementById('v-date').innerText = data.date;
-  document.getElementById('v-time').innerText = data.time;
-  document.getElementById('v-deadline').innerText = data.deadline;
-  document.getElementById('v-resname').innerText = data.reservation_name;
-  document.getElementById('v-desc').innerHTML = data.description.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+function parseBold(str) {
+  return str.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+}
+function badgeClass(v) {
+  if (v === 'from1') return 'badge-attend';
+  if (v === 'from2') return 'badge-late';
+  if (v === 'no')    return 'badge-no';
+  return '';
+}
+function badgeLabel(v) {
+  var opt = EVENT_CONFIG.rsvp_options.find(function(o){ return o.value === v; });
+  return opt ? opt.label : v;
+}
+function nameToEmoji(name) {
+  var emojis = ['😄','😊','🙂','😎','🤗','😇','🥳','😁'];
+  var idx = 0;
+  for (var i = 0; i < name.length; i++) idx += name.charCodeAt(i);
+  return emojis[idx % emojis.length];
+}
 
-  let vH = "";
-  data.venues.forEach(v => {
-    vH += `<div class="card"><div class="venue-item">
-      <div class="v-icon">${v.icon}</div>
-      <div class="v-info"><div class="v-step">${v.round}</div><div class="v-name">${v.name}</div></div>
-      <a href="${v.map_url}" class="v-map" target="_blank">지도</a>
-    </div></div>`;
+function render() {
+  var c = EVENT_CONFIG;
+  document.getElementById('page-title').textContent    = c.title;
+  document.getElementById('hero-title').textContent    = c.title;
+  document.getElementById('hero-subtitle').textContent = c.subtitle;
+  document.getElementById('hero-date').textContent     = c.date;
+  document.getElementById('hero-time').textContent     = c.time;
+  document.getElementById('deadline-text').textContent = c.deadline;
+  document.getElementById('res-name').textContent      = c.reservation_name;
+  document.getElementById('intro-text').innerHTML      = parseBold(c.description);
+
+  // 장소
+  var venueHTML = '';
+  c.venues.forEach(function(v, i) {
+    var icon = v.icon || VENUE_ICONS[i % VENUE_ICONS.length];
+    venueHTML += '<div class="venue-item">' +
+      '<div class="venue-icon">' + icon + '</div>' +
+      '<div class="venue-info">' +
+        '<div class="venue-round">' + v.round + '</div>' +
+        '<div class="venue-name">' + v.name + '</div>' +
+        '<div class="venue-desc">' + v.description + '</div>' +
+      '</div>' +
+      '<a class="venue-map-btn" href="' + v.map_url + '" target="_blank" rel="noopener">📍 지도</a>' +
+    '</div>';
+    if (v.tip) {
+      venueHTML += '<div class="venue-extra venue-extra-tip">💡 <strong>' + v.tip.author + ' 픽</strong> ' + v.tip.text + '</div>';
+    }
+    if (v.warning) {
+      venueHTML += '<div class="venue-extra venue-extra-warn">⚠️ ' + v.warning + '</div>';
+    }
   });
-  document.getElementById('v-venues').innerHTML = vH;
+  document.getElementById('venue-list').innerHTML = venueHTML;
 
-  let oH = "";
-  data.rsvp_options.forEach(o => {
-    oH += `<div class="opt-btn" onclick="sel(this, '${o.value}')">${o.label}</div>`;
+  // RSVP 옵션
+  var optHTML = '';
+  c.rsvp_options.forEach(function(o) {
+    optHTML += '<label class="rsvp-opt" onclick="selectOpt(this, \'' + o.value + '\')">' +
+      '<input type="radio" name="rsvp_status" value="' + o.value + '" />' +
+      '<span class="rsvp-opt-label">' + o.label + '</span>' +
+    '</label>';
   });
-  document.getElementById('v-opts').innerHTML = oH;
-  
-  refresh(); // 현황 불러오기
-};
+  document.getElementById('rsvp-options').innerHTML = optHTML;
+}
 
-let selectedVal = "";
-function sel(el, val) {
-  document.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('selected'));
+function selectOpt(el, value) {
+  document.querySelectorAll('.rsvp-opt').forEach(function(o){ o.classList.remove('selected'); });
   el.classList.add('selected');
-  selectedVal = val;
+  el.querySelector('input').checked = true;
 }
 
-function doSubmit() {
-  const data = window.EVENT_CONFIG;
-  const name = document.getElementById('i-name').value.trim();
-  const btn = document.getElementById('s-btn');
-  if(!name || !selectedVal) { alert('성함과 옵션을 선택해주세요!'); return; }
+function submitRSVP() {
+  var name   = document.getElementById('rsvp-name').value.trim();
+  var status = (document.querySelector('input[name="rsvp_status"]:checked') || {}).value;
+  var msg    = document.getElementById('rsvp-msg').value.trim();
+  var msgEl  = document.getElementById('form-msg');
+  var btn    = document.getElementById('submit-btn');
 
-  btn.disabled = true; btn.innerText = "전송 중...";
-  fetch(data.gas_url, {
-    method: 'POST', mode: 'no-cors',
-    body: JSON.stringify({ event_id: data.event_id, name: name, status: selectedVal, message: document.getElementById('i-msg').value })
-  }).then(() => {
-    document.getElementById('f-msg').innerText = "✅ 전송 완료!";
-    btn.innerText = "전송 성공";
-    setTimeout(refresh, 1000);
+  if (!name)   { msgEl.style.color='#C0392B'; msgEl.textContent='성함을 입력해주세요.'; return; }
+  if (!status) { msgEl.style.color='#C0392B'; msgEl.textContent='참석 여부를 선택해주세요.'; return; }
+
+  btn.disabled = true;
+  btn.textContent = '전송 중...';
+  msgEl.textContent = '';
+
+  fetch(EVENT_CONFIG.gas_url, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'text/plain' },
+    body: JSON.stringify({ event_id: EVENT_CONFIG.event_id, name: name, status: status, message: msg })
+  }).then(function() {
+    msgEl.style.color = '#1A7F37';
+    msgEl.textContent = '✅ 전송 완료! 감사합니다 😊';
+    btn.textContent = '전송 완료';
+    setTimeout(loadResponses, 2000);
+  }).catch(function() {
+    msgEl.style.color = '#C0392B';
+    msgEl.textContent = '❌ 오류가 발생했어요. 다시 시도해주세요.';
+    btn.disabled = false;
+    btn.textContent = '참석 여부 보내기';
   });
 }
 
-function refresh() {
-  const data = window.EVENT_CONFIG;
-  const s = document.createElement('script');
-  window.cb = (res) => {
-    const list = res.data.filter(r => r.event_id === data.event_id);
-    document.getElementById('s-total').innerText = list.length;
-    document.getElementById('s-attend').innerText = list.filter(r => r.status !== 'no').length;
-    document.getElementById('s-no').innerText = list.filter(r => r.status === 'no').length;
+// JSONP 방식으로 현황 읽기
+function loadResponses() {
+  var old = document.getElementById('__jsonp');
+  if (old) old.parentNode.removeChild(old);
+
+  window.__gasCallback = function(json) {
+    var rows = (json.data || []).filter(function(r){ return r.event_id === EVENT_CONFIG.event_id; });
+    var total  = rows.length;
+    var attend = rows.filter(function(r){ return r.status !== 'no'; }).length;
+    var no     = rows.filter(function(r){ return r.status === 'no'; }).length;
+
+    document.getElementById('stat-total').textContent  = total;
+    document.getElementById('stat-attend').textContent = attend;
+    document.getElementById('stat-no').textContent     = no;
+
+    var container = document.getElementById('response-container');
+    if (rows.length === 0) {
+      container.innerHTML = '<div class="empty-state"><div class="empty-icon">🙈</div>아직 응답이 없어요</div>';
+      return;
+    }
+    var html = '<div class="response-list">';
+    rows.forEach(function(r) {
+      html += '<div class="response-item">' +
+        '<div class="response-avatar">' + nameToEmoji(r.name || '') + '</div>' +
+        '<div class="response-info">' +
+          '<div class="response-name">' + (r.name || '-') + '</div>' +
+          (r.message ? '<div class="response-msg">' + r.message + '</div>' : '') +
+        '</div>' +
+        '<span class="status-badge ' + badgeClass(r.status) + '">' + badgeLabel(r.status) + '</span>' +
+      '</div>';
+    });
+    html += '</div>';
+    container.innerHTML = html;
   };
-  s.src = `${data.gas_url}?action=read&callback=cb&t=${Date.now()}`;
+
+  var s = document.createElement('script');
+  s.id  = '__jsonp';
+  s.src = EVENT_CONFIG.gas_url + '?action=read&callback=__gasCallback&t=' + Date.now();
+  s.onerror = function() {
+    document.getElementById('response-container').innerHTML =
+      '<div class="empty-state"><div class="empty-icon">😢</div>현황을 불러오지 못했어요<br><span style="font-size:12px;color:#C7C7CC">gas_url을 확인해주세요</span></div>';
+  };
   document.body.appendChild(s);
 }
+
+render();
+loadResponses();
 </script>
 </body>
 </html>
