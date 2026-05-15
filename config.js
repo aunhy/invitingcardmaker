@@ -4,18 +4,18 @@
 
 const EVENT_CONFIG = {
 
-  // 행사 고유 ID (Sheets에서 구분용, 영문+숫자만)
+  // 행사 고유 ID (영문+숫자만, 행사마다 다르게)
   event_id: "byebyekin",
 
-  // 상단 타이틀 & 서브타이틀
+  // 제목 & 서브타이틀
   title: "퇴사는 핑계일 뿐",
   subtitle: "오랜만에 모여서 맛있는 거 먹기",
 
-  // 날짜 & 시간 표시 문구
+  // 날짜 & 시간
   date: "5월 22일 금요일",
   time: "18:30 PM",
 
-  // 초대 본문 (줄바꿈은 \n)
+  // 초대 본문 (**굵게** 사용 가능, 줄바꿈은 \n)
   description: "마지막 남은 장터즈, **현아 승훈** 드디어 킨텍스 떠납니다! ✈️\n가기 전에 다 같이 모여 맛있는 거 먹어요. 😋\n**즐거운 마음으로! 함께 해주시면 감사하겠습니다!**\n\n2차, 3차는 자유롭게! 부담 갖지 말고 편하게 참석해주세요. :)",
 
   // 회신 마감
@@ -24,7 +24,7 @@ const EVENT_CONFIG = {
   // 예약명
   reservation_name: "최승훈",
 
-  // 장소 목록 (최대 제한 없음, 원하는 만큼 추가/삭제)
+  // 장소 목록
   venues: [
     {
       round: "1차",
@@ -52,13 +52,13 @@ const EVENT_CONFIG = {
     },
   ],
 
-  // 참석 옵션 (value는 DB에 저장되는 값, label은 화면에 표시)
+  // 참석 옵션
   rsvp_options: [
     { value: "from1", label: "1차부터 참석 🙋" },
     { value: "from2", label: "2차부터 합류 🕐" },
     { value: "no",    label: "불참 (마음만 함께) 😢" },
   ],
 
-  // Google Apps Script 배포 URL (배포 후 여기 붙여넣기)
-  gas_url: "https://script.google.com/macros/s/AKfycbznckIfcljYqHBy39mh2FI1_feVVtMaECSGOhaRZFOQDNYss1LI5kYy25hYE45aBNx5/exec",
+  // ⬇️ Google Apps Script 배포 후 여기에 URL 붙여넣기
+  gas_url: "https://script.google.com/macros/s/AKfycbw1CDNvBAMLmR6nOHmsVzS0Ph45vqIej9fAS9m8Dyo_XWxoNOgCsz2WQsCldqkgo8AL/exec",
 };
