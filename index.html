@@ -1,347 +1,212 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title id="page-title">초대장</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>초대장</title>
   <script src="config.js"></script>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   <style>
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:'Pretendard',-apple-system,sans-serif;background:#fff;color:#191919;-webkit-font-smoothing:antialiased}
-    a{color:inherit;text-decoration:none}
+    :root { --bg: #f2f2f7; --card: #ffffff; --blue: #007AFF; --orange: #FF9500; --gray: #8e8e93; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Pretendard', sans-serif; background: var(--bg); color: #1c1c1e; padding: 20px 16px 80px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+    .page { max-width: 460px; margin: 0 auto; }
+    
+    /* 히어로 */
+    .hero { background: #1c1c1e; color: #fff; padding: 44px 24px; border-radius: 28px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+    .hero-tag { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.15); color: #30D158; font-size: 12px; font-weight: 700; padding: 5px 12px; border-radius: 100px; margin-bottom: 16px; }
+    .hero h1 { font-size: 26px; font-weight: 800; margin-bottom: 12px; }
+    .chip { display: inline-block; background: rgba(255,255,255,0.1); padding: 7px 12px; border-radius: 10px; font-size: 13px; margin-right: 6px; font-weight: 600; }
 
-    .wrap{max-width:480px;margin:0 auto;padding:48px 24px 80px}
+    .section-title { font-size: 13px; font-weight: 700; color: var(--gray); margin: 30px 0 10px 8px; text-transform: uppercase; }
+    .card { background: var(--card); border-radius: 24px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.04); margin-bottom: 12px; overflow: hidden; }
 
-    /* 헤더 */
-    .header{margin-bottom:40px}
-    .header-eyebrow{font-size:13px;font-weight:500;color:#8E8E93;margin-bottom:10px}
-    .header-title{font-size:30px;font-weight:700;line-height:1.25;margin-bottom:6px;letter-spacing:-0.5px}
-    .header-subtitle{font-size:16px;color:#8E8E93;font-weight:400;margin-bottom:20px}
-    .header-chips{display:flex;gap:8px;flex-wrap:wrap}
-    .chip{display:inline-flex;align-items:center;gap:5px;background:#F2F2F7;color:#3C3C43;font-size:13px;font-weight:500;padding:6px 12px;border-radius:100px}
-
-    /* 섹션 */
-    .section{margin-bottom:40px}
-    .section-label{font-size:12px;font-weight:600;color:#8E8E93;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:12px}
-
-    /* 본문 */
-    .intro{font-size:15px;line-height:1.8;color:#3C3C43;white-space:pre-line}
-    .intro strong{color:#191919;font-weight:600}
-
-    /* 구분선 */
-    .divider{height:1px;background:#F2F2F7;margin:0 0 40px}
-
-    /* 장소 */
-    .venue-list{display:flex;flex-direction:column;gap:0}
-    .venue-row{display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid #F2F2F7}
-    .venue-row:last-of-type{border-bottom:none}
-    .venue-icon{width:42px;height:42px;border-radius:12px;background:#F2F2F7;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
-    .venue-info{flex:1;min-width:0}
-    .venue-round{font-size:11px;font-weight:600;color:#8E8E93;margin-bottom:1px}
-    .venue-name{font-size:15px;font-weight:600;color:#191919;margin-bottom:1px}
-    .venue-desc{font-size:13px;color:#8E8E93;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-    .venue-map{font-size:13px;font-weight:500;color:#007AFF;white-space:nowrap;flex-shrink:0}
-    .venue-extra{display:flex;align-items:flex-start;gap:6px;font-size:13px;color:#3C3C43;padding:8px 12px 12px 56px;line-height:1.5}
-    .venue-extra.tip  strong{color:#34C759}
-    .venue-extra.warn strong{color:#FF9F0A}
+    /* 장소 아이템 */
+    .venue-card { padding: 0; }
+    .venue-item { display: flex; align-items: center; gap: 15px; padding: 20px; border-bottom: 1px solid #f2f2f7; }
+    .venue-item:last-child { border-bottom: none; }
+    .v-icon { width: 48px; height: 48px; background: #f2f2f7; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; }
+    .v-info { flex: 1; min-width: 0; }
+    .v-step { font-size: 11px; font-weight: 800; color: var(--blue); margin-bottom: 2px; }
+    .v-name { font-size: 16px; font-weight: 700; margin-bottom: 2px; }
+    .v-desc { font-size: 13px; color: var(--gray); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .v-map { text-decoration: none; background: #1c1c1e; padding: 8px 12px; border-radius: 10px; font-size: 12px; color: #fff; font-weight: 600; flex-shrink: 0; }
+    
+    /* 팁/경고 박스 */
+    .v-extra { background: #f9f9fb; padding: 12px 20px; border-top: 1px solid #f2f2f7; font-size: 13px; color: #48484a; }
+    .v-extra.warning { border-left: 4px solid #ff3b30; color: #ff3b30; }
+    .v-extra.tip { border-left: 4px solid var(--blue); }
 
     /* RSVP */
-    .rsvp-box{background:#F2F2F7;border-radius:16px;padding:20px}
-    .rsvp-deadline{font-size:13px;color:#8E8E93;margin-bottom:16px}
-    .rsvp-deadline strong{color:#FF3B30}
+    .deadline { font-size: 14px; font-weight: 700; color: var(--orange); margin-bottom: 15px; display: block; }
+    .field { margin-bottom: 20px; }
+    .field label { display: block; font-size: 13px; font-weight: 700; color: var(--gray); margin-bottom: 8px; }
+    .field input, .field textarea { width: 100%; padding: 14px; border: 1.5px solid #efeff4; border-radius: 14px; font-size: 15px; outline: none; background: #f9f9fb; font-family: inherit; }
+    .field input:focus { border-color: var(--blue); background: #fff; }
 
-    .field{margin-bottom:12px}
-    .field-label{font-size:13px;font-weight:500;color:#8E8E93;margin-bottom:6px}
-    .field input,.field textarea{width:100%;background:#fff;border:1px solid #E5E5EA;border-radius:10px;padding:11px 14px;font-family:'Pretendard',sans-serif;font-size:15px;color:#191919;outline:none;transition:border-color .15s}
-    .field input:focus,.field textarea:focus{border-color:#007AFF}
-    .field textarea{resize:vertical;min-height:72px}
+    .opt-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+    .opt-btn { padding: 16px; background: #f2f2f7; border-radius: 14px; cursor: pointer; border: 2px solid transparent; font-weight: 600; transition: 0.2s; }
+    .opt-btn.selected { background: #eef7ff; border-color: var(--blue); color: var(--blue); }
 
-    /* 드롭다운 선택 */
-    .select-box{position:relative;margin-bottom:12px}
-    .select-trigger{width:100%;background:#fff;border:1px solid #E5E5EA;border-radius:10px;padding:11px 14px;font-family:'Pretendard',sans-serif;font-size:15px;color:#191919;display:flex;align-items:center;justify-content:space-between;cursor:pointer;transition:border-color .15s;user-select:none}
-    .select-trigger.open{border-color:#007AFF;border-radius:10px 10px 0 0}
-    .select-trigger.placeholder{color:#8E8E93}
-    .select-arrow{font-size:12px;color:#8E8E93;transition:transform .2s}
-    .select-arrow.open{transform:rotate(180deg)}
-    .select-dropdown{position:absolute;top:100%;left:0;right:0;background:#fff;border:1px solid #007AFF;border-top:none;border-radius:0 0 10px 10px;overflow:hidden;z-index:10;display:none}
-    .select-dropdown.open{display:block}
-    .select-option{padding:12px 14px;font-size:15px;color:#191919;cursor:pointer;transition:background .1s;display:flex;align-items:center;gap:8px}
-    .select-option:hover{background:#F2F2F7}
-    .select-option.selected{color:#007AFF;font-weight:500}
-    .select-option-check{font-size:13px;margin-left:auto;color:#007AFF;opacity:0}
-    .select-option.selected .select-option-check{opacity:1}
+    .submit-btn { width: 100%; padding: 18px; background: var(--blue); color: #fff; border: none; border-radius: 18px; font-size: 16px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 15px rgba(0,122,255,0.3); }
+    .submit-btn:disabled { background: #ccc; box-shadow: none; }
 
-    .submit-btn{width:100%;background:#191919;color:#fff;border:none;border-radius:10px;padding:14px;font-family:'Pretendard',sans-serif;font-size:16px;font-weight:600;cursor:pointer;transition:opacity .15s,transform .1s;margin-top:4px}
-    .submit-btn:hover{opacity:.85}
-    .submit-btn:active{transform:scale(.98)}
-    .submit-btn:disabled{opacity:.4;cursor:not-allowed}
-    .form-msg{margin-top:8px;font-size:13px;font-weight:500;text-align:center;min-height:18px}
+    /* 통계 */
+    .stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+    .stat-box { background: #fff; padding: 18px 10px; border-radius: 20px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.02); }
+    .stat-num { display: block; font-size: 22px; font-weight: 800; }
+    .stat-lbl { font-size: 11px; color: var(--gray); font-weight: 600; }
 
-    /* 현황 */
-    .stats-row{display:flex;gap:8px;margin-bottom:16px}
-    .stat{flex:1;background:#F2F2F7;border-radius:12px;padding:12px;text-align:center}
-    .stat-num{font-size:22px;font-weight:700;color:#191919;display:block;letter-spacing:-0.5px}
-    .stat-label{font-size:12px;color:#8E8E93;font-weight:500;margin-top:2px}
+    .res-card { background: #1c1c1e; color: #fff; padding: 24px; border-radius: 24px; }
+    .res-val { font-size: 24px; font-weight: 800; color: var(--blue); margin-top: 5px; }
 
-    .response-list{display:flex;flex-direction:column;gap:0}
-    .response-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid #F2F2F7}
-    .response-row:last-child{border-bottom:none}
-    .response-avatar{width:34px;height:34px;border-radius:50%;background:#F2F2F7;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
-    .response-info{flex:1;min-width:0}
-    .response-name{font-size:14px;font-weight:600;color:#191919}
-    .response-msg{font-size:13px;color:#8E8E93;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-top:1px}
-    .badge{font-size:12px;font-weight:600;padding:3px 10px;border-radius:100px;white-space:nowrap;flex-shrink:0}
-    .badge-attend{background:#E8F9EE;color:#1C7F37}
-    .badge-late{background:#FFF3E0;color:#B45309}
-    .badge-no{background:#FEE8E8;color:#C0392B}
-
-    .empty{text-align:center;padding:28px 0;color:#8E8E93;font-size:14px}
-    .empty-icon{font-size:28px;margin-bottom:8px}
-
-    /* 예약 */
-    .res-box{border:1px solid #E5E5EA;border-radius:16px;padding:20px}
-    .res-label{font-size:12px;font-weight:600;color:#8E8E93;margin-bottom:4px}
-    .res-name{font-size:26px;font-weight:700;color:#191919;margin-bottom:10px;letter-spacing:-0.5px}
-    .res-desc{font-size:14px;color:#8E8E93;line-height:1.7}
-
-    /* 애니메이션 */
-    .fade{opacity:0;transform:translateY(12px);animation:fi .45s ease forwards}
-    @keyframes fi{to{opacity:1;transform:translateY(0)}}
-    .d1{animation-delay:.06s}.d2{animation-delay:.12s}.d3{animation-delay:.18s}
-    .d4{animation-delay:.24s}.d5{animation-delay:.30s}.d6{animation-delay:.36s}
-
-    footer{text-align:center;padding:20px;font-size:12px;color:#C7C7CC}
+    footer { padding: 40px; text-align: center; font-size: 11px; color: #c7c7cc; letter-spacing: 1px; }
   </style>
 </head>
 <body>
-<div class="wrap">
 
-  <!-- 헤더 -->
-  <div class="header fade">
-    <div class="header-eyebrow">초대장</div>
-    <div class="header-title" id="hero-title"></div>
-    <div class="header-subtitle" id="hero-subtitle"></div>
-    <div class="header-chips">
-      <span class="chip">📅 <span id="hero-date"></span></span>
-      <span class="chip">🕕 <span id="hero-time"></span></span>
+<div class="page">
+  <div class="hero">
+    <div class="hero-tag">참석 응답 받는 중</div>
+    <h1 id="view-title">로드 중...</h1>
+    <div class="hero-chips">
+      <span class="chip">📅 <span id="view-date"></span></span>
+      <span class="chip">🕕 <span id="view-time"></span></span>
     </div>
   </div>
 
-  <div class="divider"></div>
+  <div class="section-title">초대의 말</div>
+  <div class="card" id="view-desc" style="white-space: pre-line;"></div>
 
-  <!-- 초대의 말 -->
-  <div class="section fade d1">
-    <div class="section-label">초대의 말</div>
-    <div class="intro" id="intro-text"></div>
-  </div>
+  <div class="section-title">장소 안내</div>
+  <div id="view-venues" class="venue-container"></div>
 
-  <!-- 장소 -->
-  <div class="section fade d2">
-    <div class="section-label">장소 안내</div>
-    <div class="venue-list" id="venue-list"></div>
-  </div>
-
-  <!-- RSVP -->
-  <div class="section fade d3">
-    <div class="section-label">참석 여부</div>
-    <div class="rsvp-box">
-      <div class="rsvp-deadline">⏰ <strong id="deadline-text"></strong>까지 회신 부탁드립니다!</div>
-
-      <div class="field">
-        <div class="field-label">성함</div>
-        <input type="text" id="rsvp-name" placeholder="이름을 입력해주세요"/>
-      </div>
-
-      <!-- 드롭다운 -->
-      <div class="select-box" id="select-box">
-        <div class="select-trigger placeholder" id="select-trigger" onclick="toggleDropdown()">
-          <span id="select-label">참석 여부를 선택해주세요</span>
-          <span class="select-arrow" id="select-arrow">▼</span>
-        </div>
-        <div class="select-dropdown" id="select-dropdown"></div>
-      </div>
-      <input type="hidden" id="rsvp-status"/>
-
-      <div class="field">
-        <div class="field-label">한마디 (선택)</div>
-        <textarea id="rsvp-msg" placeholder="짧은 메시지를 남겨주세요 :)"></textarea>
-      </div>
-
-      <button class="submit-btn" id="submit-btn" onclick="submitRSVP()">참석 여부 보내기</button>
-      <div class="form-msg" id="form-msg"></div>
+  <div class="section-title">참석 여부 알려주기</div>
+  <div class="card">
+    <span class="deadline">⏰ <span id="view-deadline"></span>까지 회신</span>
+    <div class="field">
+      <label>성함</label>
+      <input type="text" id="input-name" placeholder="이름을 입력해주세요">
     </div>
+    <div class="opt-list" id="view-opts"></div>
+    <div class="field">
+      <label>한마디 (선택)</label>
+      <textarea id="input-msg" placeholder="짧은 메시지를 남겨주세요 :)"></textarea>
+    </div>
+    <button class="submit-btn" id="btn-submit" onclick="doSubmit()">참석 여부 보내기</button>
+    <p id="form-msg" style="text-align:center; font-size:13px; margin-top:15px; font-weight:600;"></p>
   </div>
 
-  <!-- 현황 -->
-  <div class="section fade d4">
-    <div class="section-label">참석자 현황</div>
-    <div class="stats-row">
-      <div class="stat"><span class="stat-num" id="stat-total">–</span><div class="stat-label">전체</div></div>
-      <div class="stat"><span class="stat-num" id="stat-attend">–</span><div class="stat-label">참석</div></div>
-      <div class="stat"><span class="stat-num" id="stat-no">–</span><div class="stat-label">불참</div></div>
-    </div>
-    <div id="response-container">
-      <div class="empty"><div class="empty-icon">🔄</div>불러오는 중...</div>
-    </div>
+  <div class="section-title">참석 현황</div>
+  <div class="stats">
+    <div class="stat-box"><span class="stat-num" id="stat-total">0</span><span class="stat-lbl">전체</span></div>
+    <div class="stat-box"><span class="stat-num" id="stat-attend">0</span><span class="stat-lbl">참석</span></div>
+    <div class="stat-box"><span class="stat-num" id="stat-no">0</span><span class="stat-lbl">불참</span></div>
   </div>
 
-  <!-- 예약 -->
-  <div class="section fade d5">
-    <div class="section-label">예약 안내</div>
-    <div class="res-box">
-      <div class="res-label">예약명</div>
-      <div class="res-name" id="res-name"></div>
-      <div class="res-desc">먼저 도착하시는 분은 예약 성함을 말씀하시고 편하게 계시면 됩니다.<br>저희는 퇴근 후 최대한 빨리 넘어갈게요! 그날 뵙겠습니다 😊</div>
-    </div>
+  <div class="section-title">예약 안내</div>
+  <div class="res-card">
+    <div style="font-size:12px; color:var(--gray)">예약명</div>
+    <div class="res-val" id="view-resname"></div>
   </div>
 
-  <footer>made with ♥</footer>
+  <footer>MADE BY GEMINI ♥</footer>
 </div>
 
 <script>
-var C = null;
+const data = window.EVENT_CONFIG || {};
+let selVal = "";
 
-function parseBold(s){ return s.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>'); }
-function badgeClass(v){ return v==='from1'?'badge-attend':v==='from2'?'badge-late':'badge-no'; }
-function badgeLabel(v){ var o=C.rsvp_options.find(function(x){return x.value===v;}); return o?o.label:v; }
-function emojiFor(n){ var e=['😄','😊','🙂','😎','🤗','😇','🥳','😁'],s=0; for(var i=0;i<n.length;i++)s+=n.charCodeAt(i); return e[s%e.length]; }
+function draw() {
+  if(!data.title) return;
+  document.getElementById('view-title').innerText = data.title;
+  document.getElementById('view-date').innerText = data.date;
+  document.getElementById('view-time').innerText = data.time;
+  document.getElementById('view-deadline').innerText = data.deadline;
+  document.getElementById('view-resname').innerText = data.reservation_name;
+  document.getElementById('view-desc').innerHTML = data.description.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
 
-function render(){
-  document.getElementById('page-title').textContent    = C.title;
-  document.getElementById('hero-title').textContent    = C.title;
-  document.getElementById('hero-subtitle').textContent = C.subtitle;
-  document.getElementById('hero-date').textContent     = C.date;
-  document.getElementById('hero-time').textContent     = C.time;
-  document.getElementById('deadline-text').textContent = C.deadline;
-  document.getElementById('res-name').textContent      = C.reservation_name;
-  document.getElementById('intro-text').innerHTML      = parseBold(C.description);
-
-  // 장소
-  var vHTML='';
-  C.venues.forEach(function(v){
-    vHTML+='<div class="venue-row">'+
-      '<div class="venue-icon">'+(v.icon||'🍽')+'</div>'+
-      '<div class="venue-info">'+
-        '<div class="venue-round">'+v.round+'</div>'+
-        '<div class="venue-name">'+v.name+'</div>'+
-        '<div class="venue-desc">'+v.description+'</div>'+
-      '</div>'+
-      '<a class="venue-map" href="'+v.map_url+'" target="_blank" rel="noopener">📍 지도</a>'+
-    '</div>';
-    if(v.tip)   vHTML+='<div class="venue-extra tip">💡 <strong>'+v.tip.author+' 픽</strong>&nbsp;'+v.tip.text+'</div>';
-    if(v.warning) vHTML+='<div class="venue-extra warn">⚠️ <strong>주의</strong>&nbsp;'+v.warning+'</div>';
+  // 장소 렌더링 (카드 안의 개별 리스트 형태)
+  let vH = "";
+  data.venues.forEach((v, i) => {
+    vH += `<div class="card venue-card">
+      <div class="venue-item">
+        <div class="v-icon">${v.icon || '📍'}</div>
+        <div class="v-info">
+          <div class="v-step">${v.round}</div>
+          <div class="v-name">${v.name}</div>
+          <div class="v-desc">${v.description}</div>
+        </div>
+        <a href="${v.map_url}" class="v-map" target="_blank">지도</a>
+      </div>`;
+    if(v.tip) vH += `<div class="v-extra tip">💡 <strong>${v.tip.author} 픽:</strong> ${v.tip.text}</div>`;
+    if(v.warning) vH += `<div class="v-extra warning">⚠️ ${v.warning}</div>`;
+    vH += `</div>`;
   });
-  document.getElementById('venue-list').innerHTML=vHTML;
+  document.getElementById('view-venues').innerHTML = vH;
 
-  // 드롭다운 옵션
-  var dHTML='';
-  C.rsvp_options.forEach(function(o){
-    dHTML+='<div class="select-option" data-value="'+o.value+'" onclick="selectOption(\''+o.value+'\',\''+o.label+'\')">'+
-      o.label+'<span class="select-option-check">✓</span></div>';
+  // 옵션 렌더링
+  let oH = "";
+  data.rsvp_options.forEach(o => {
+    oH += `<div class="opt-btn" onclick="selectOpt(this, '${o.value}')">${o.label}</div>`;
   });
-  document.getElementById('select-dropdown').innerHTML=dHTML;
+  document.getElementById('view-opts').innerHTML = oH;
 }
 
-// 드롭다운
-function toggleDropdown(){
-  var dd=document.getElementById('select-dropdown');
-  var tr=document.getElementById('select-trigger');
-  var ar=document.getElementById('select-arrow');
-  var open=dd.classList.contains('open');
-  dd.classList.toggle('open',!open);
-  tr.classList.toggle('open',!open);
-  ar.classList.toggle('open',!open);
+function selectOpt(el, val) {
+  document.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+  selVal = val;
 }
-function selectOption(value,label){
-  document.getElementById('rsvp-status').value=value;
-  var lbl=document.getElementById('select-label');
-  lbl.textContent=label;
-  lbl.style.color='#191919';
-  document.getElementById('select-trigger').classList.remove('placeholder');
-  document.querySelectorAll('.select-option').forEach(function(el){
-    el.classList.toggle('selected', el.dataset.value===value);
-  });
-  toggleDropdown();
-}
-document.addEventListener('click',function(e){
-  if(!document.getElementById('select-box').contains(e.target)){
-    document.getElementById('select-dropdown').classList.remove('open');
-    document.getElementById('select-trigger').classList.remove('open');
-    document.getElementById('select-arrow').classList.remove('open');
-  }
-});
 
-// 제출
-function submitRSVP(){
-  var name  =document.getElementById('rsvp-name').value.trim();
-  var status=document.getElementById('rsvp-status').value;
-  var msg   =document.getElementById('rsvp-msg').value.trim();
-  var msgEl =document.getElementById('form-msg');
-  var btn   =document.getElementById('submit-btn');
-  if(!name)  {msgEl.style.color='#C0392B';msgEl.textContent='성함을 입력해주세요.';return;}
-  if(!status){msgEl.style.color='#C0392B';msgEl.textContent='참석 여부를 선택해주세요.';return;}
-  btn.disabled=true; btn.textContent='전송 중...'; msgEl.textContent='';
-  fetch(GAS_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},
-    body:JSON.stringify({event_id:C.event_id,name:name,status:status,message:msg})
-  }).then(function(){
-    msgEl.style.color='#1C7F37'; msgEl.textContent='✅ 전송 완료! 감사합니다 😊';
-    btn.textContent='전송 완료';
-    setTimeout(loadResponses,2000);
-  }).catch(function(){
-    msgEl.style.color='#C0392B'; msgEl.textContent='❌ 오류가 발생했어요. 다시 시도해주세요.';
-    btn.disabled=false; btn.textContent='참석 여부 보내기';
+function doSubmit() {
+  const name = document.getElementById('input-name').value.trim();
+  const btn = document.getElementById('btn-submit');
+  const msg = document.getElementById('form-msg');
+
+  if(!name || !selVal) { alert('이름과 참석 여부를 선택해주세요!'); return; }
+
+  btn.disabled = true;
+  btn.innerText = "전송 중...";
+  msg.style.color = "var(--blue)";
+  msg.innerText = "데이터를 전송하고 있습니다.";
+
+  fetch(data.gas_url, {
+    method: 'POST',
+    mode: 'no-cors',
+    body: JSON.stringify({
+      event_id: data.event_id,
+      name: name,
+      status: selVal,
+      message: document.getElementById('input-msg').value
+    })
+  }).then(() => {
+    msg.style.color = "#34c759";
+    msg.innerText = "✅ 전송 완료! 감사합니다.";
+    btn.innerText = "완료되었습니다";
+    setTimeout(refresh, 1000);
+  }).catch(() => {
+    btn.disabled = false;
+    btn.innerText = "다시 시도하기";
+    msg.innerText = "❌ 전송 실패";
   });
 }
 
-// 현황 (JSONP)
-function loadResponses(){
-  var old=document.getElementById('__jsonp');
-  if(old) old.parentNode.removeChild(old);
-  window.__gasCallback=function(json){
-    var rows=(json.data||[]).filter(function(r){return r.event_id===C.event_id;});
-    document.getElementById('stat-total').textContent =rows.length;
-    document.getElementById('stat-attend').textContent=rows.filter(function(r){return r.status!=='no';}).length;
-    document.getElementById('stat-no').textContent    =rows.filter(function(r){return r.status==='no';}).length;
-    var con=document.getElementById('response-container');
-    if(!rows.length){con.innerHTML='<div class="empty"><div class="empty-icon">🙈</div>아직 응답이 없어요</div>';return;}
-    var h='<div class="response-list">';
-    rows.forEach(function(r){
-      h+='<div class="response-row">'+
-        '<div class="response-avatar">'+emojiFor(r.name||'')+'</div>'+
-        '<div class="response-info">'+
-          '<div class="response-name">'+(r.name||'-')+'</div>'+
-          (r.message?'<div class="response-msg">'+r.message+'</div>':'')+
-        '</div>'+
-        '<span class="badge '+badgeClass(r.status)+'">'+badgeLabel(r.status)+'</span>'+
-      '</div>';
-    });
-    h+='</div>';
-    con.innerHTML=h;
+function refresh() {
+  if(!data.gas_url) return;
+  const s = document.createElement('script');
+  window.cb = (res) => {
+    const list = (res.data || []).filter(r => r.event_id === data.event_id);
+    document.getElementById('stat-total').innerText = list.length;
+    document.getElementById('stat-attend').innerText = list.filter(r => r.status !== 'no').length;
+    document.getElementById('stat-no').innerText = list.filter(r => r.status === 'no').length;
   };
-  var s=document.createElement('script');
-  s.id='__jsonp';
-  s.src=GAS_URL+'?action=read&callback=__gasCallback&t='+Date.now();
-  s.onerror=function(){
-    document.getElementById('response-container').innerHTML=
-      '<div class="empty"><div class="empty-icon">😢</div>현황을 불러오지 못했어요</div>';
-  };
+  s.src = `${data.gas_url}?action=read&callback=cb&t=${Date.now()}`;
   document.body.appendChild(s);
 }
 
-// 초기화: Sheets에서 config 로드, 없으면 DEFAULT_CONFIG 사용
-function init(){
-  window.__configCallback=function(json){
-    C=json.success?json.config:DEFAULT_CONFIG;
-    render();
-    loadResponses();
-  };
-  var s=document.createElement('script');
-  s.src=GAS_URL+'?action=getConfig&event_id='+DEFAULT_CONFIG.event_id+'&callback=__configCallback&t='+Date.now();
-  s.onerror=function(){ C=DEFAULT_CONFIG; render(); loadResponses(); };
-  document.body.appendChild(s);
-}
-init();
+draw();
+refresh();
 </script>
 </body>
 </html>
