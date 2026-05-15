@@ -1,239 +1,347 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title id="page-title">초대장</title>
   <script src="config.js"></script>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"/>
   <style>
-    :root {
-      --primary-bg: #f2f2f7;
-      --card-bg: #ffffff;
-      --accent-color: #007AFF;
-      --text-main: #1c1c1e;
-      --text-sub: #8e8e93;
-    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Pretendard',-apple-system,sans-serif;background:#fff;color:#191919;-webkit-font-smoothing:antialiased}
+    a{color:inherit;text-decoration:none}
 
-    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    .wrap{max-width:480px;margin:0 auto;padding:48px 24px 80px}
 
-    body {
-      font-family: 'Pretendard', -apple-system, sans-serif;
-      background-color: var(--primary-bg);
-      color: var(--text-main);
-      line-height: 1.5;
-      padding: 20px 16px 80px;
-    }
+    /* 헤더 */
+    .header{margin-bottom:40px}
+    .header-eyebrow{font-size:13px;font-weight:500;color:#8E8E93;margin-bottom:10px}
+    .header-title{font-size:30px;font-weight:700;line-height:1.25;margin-bottom:6px;letter-spacing:-0.5px}
+    .header-subtitle{font-size:16px;color:#8E8E93;font-weight:400;margin-bottom:20px}
+    .header-chips{display:flex;gap:8px;flex-wrap:wrap}
+    .chip{display:inline-flex;align-items:center;gap:5px;background:#F2F2F7;color:#3C3C43;font-size:13px;font-weight:500;padding:6px 12px;border-radius:100px}
 
-    .page { max-width: 460px; margin: 0 auto; min-height: 100vh; }
+    /* 섹션 */
+    .section{margin-bottom:40px}
+    .section-label{font-size:12px;font-weight:600;color:#8E8E93;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:12px}
 
-    /* 히어로 */
-    .hero { 
-      background: #1c1c1e; color: #fff; padding: 48px 24px; border-radius: 32px; margin-bottom: 24px;
-      box-shadow: 0 15px 30px rgba(0,0,0,0.1);
-    }
-    .hero-tag { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.15); color: #30D158; font-size: 12px; font-weight: 700; padding: 6px 12px; border-radius: 100px; margin-bottom: 20px; }
-    .hero-tag-dot { width: 6px; height: 6px; background: #30D158; border-radius: 50%; box-shadow: 0 0 10px #30D158; }
-    .hero h1 { font-size: 28px; font-weight: 800; line-height: 1.3; }
-    .hero-chips { display: flex; gap: 8px; margin-top: 20px; }
-    .chip { background: rgba(255,255,255,0.1); padding: 8px 12px; border-radius: 10px; font-size: 13px; }
+    /* 본문 */
+    .intro{font-size:15px;line-height:1.8;color:#3C3C43;white-space:pre-line}
+    .intro strong{color:#191919;font-weight:600}
 
-    .section-title { font-size: 14px; font-weight: 700; color: #8e8e93; margin: 32px 0 12px 8px; }
+    /* 구분선 */
+    .divider{height:1px;background:#F2F2F7;margin:0 0 40px}
 
-    /* 카드 스타일 */
-    .intro-card, .rsvp-card, .venue-card, .stat-card, .reservation-card { 
-      background: var(--card-bg); border-radius: 24px; padding: 24px; box-shadow: 0 4px 15px rgba(0,0,0,0.04); margin-bottom: 16px;
-    }
+    /* 장소 */
+    .venue-list{display:flex;flex-direction:column;gap:0}
+    .venue-row{display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid #F2F2F7}
+    .venue-row:last-of-type{border-bottom:none}
+    .venue-icon{width:42px;height:42px;border-radius:12px;background:#F2F2F7;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+    .venue-info{flex:1;min-width:0}
+    .venue-round{font-size:11px;font-weight:600;color:#8E8E93;margin-bottom:1px}
+    .venue-name{font-size:15px;font-weight:600;color:#191919;margin-bottom:1px}
+    .venue-desc{font-size:13px;color:#8E8E93;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .venue-map{font-size:13px;font-weight:500;color:#007AFF;white-space:nowrap;flex-shrink:0}
+    .venue-extra{display:flex;align-items:flex-start;gap:6px;font-size:13px;color:#3C3C43;padding:8px 12px 12px 56px;line-height:1.5}
+    .venue-extra.tip  strong{color:#34C759}
+    .venue-extra.warn strong{color:#FF9F0A}
 
-    /* 장소 안내 리뉴얼 버전 적용 */
-    .venue-body { display: flex; align-items: center; gap: 16px; }
-    .venue-icon-box { width: 48px; height: 48px; border-radius: 14px; background: #f2f2f7; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; }
-    .venue-content { flex: 1; }
-    .venue-step { font-size: 11px; font-weight: 800; color: var(--accent-color); margin-bottom: 2px; }
-    .venue-name { font-size: 16px; font-weight: 700; }
-    .venue-desc { font-size: 13px; color: var(--text-sub); }
-    .venue-map-link { width: 36px; height: 36px; background: #f2f2f7; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; font-size: 16px; flex-shrink: 0; }
+    /* RSVP */
+    .rsvp-box{background:#F2F2F7;border-radius:16px;padding:20px}
+    .rsvp-deadline{font-size:13px;color:#8E8E93;margin-bottom:16px}
+    .rsvp-deadline strong{color:#FF3B30}
 
-    /* RSVP 폼 */
-    .deadline-badge { display: inline-flex; background: #fff5eb; color: #ff9500; padding: 6px 12px; border-radius: 8px; font-size: 13px; font-weight: 700; margin-bottom: 20px; }
-    .field { margin-bottom: 18px; }
-    .field label { display: block; font-size: 13px; font-weight: 700; color: var(--text-main); margin-bottom: 8px; }
-    .field input, .field textarea { width: 100%; padding: 14px; border-radius: 14px; border: 1.5px solid #efeff4; background: #f9f9fb; font-size: 15px; font-family: inherit; outline: none; }
-    
-    .rsvp-options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
-    .rsvp-opt { display: flex; align-items: center; gap: 12px; padding: 15px; border-radius: 14px; background: #f2f2f7; border: 2px solid transparent; cursor: pointer; transition: 0.2s; }
-    .rsvp-opt.selected { background: #eef7ff; border-color: var(--accent-color); }
-    .rsvp-opt input { display: none; }
+    .field{margin-bottom:12px}
+    .field-label{font-size:13px;font-weight:500;color:#8E8E93;margin-bottom:6px}
+    .field input,.field textarea{width:100%;background:#fff;border:1px solid #E5E5EA;border-radius:10px;padding:11px 14px;font-family:'Pretendard',sans-serif;font-size:15px;color:#191919;outline:none;transition:border-color .15s}
+    .field input:focus,.field textarea:focus{border-color:#007AFF}
+    .field textarea{resize:vertical;min-height:72px}
 
-    .submit-btn { width: 100%; padding: 18px; border-radius: 16px; background: var(--accent-color); color: #fff; border: none; font-size: 16px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 15px rgba(0, 122, 255, 0.3); }
-    .submit-btn:disabled { background: #ccc; box-shadow: none; cursor: not-allowed; }
+    /* 드롭다운 선택 */
+    .select-box{position:relative;margin-bottom:12px}
+    .select-trigger{width:100%;background:#fff;border:1px solid #E5E5EA;border-radius:10px;padding:11px 14px;font-family:'Pretendard',sans-serif;font-size:15px;color:#191919;display:flex;align-items:center;justify-content:space-between;cursor:pointer;transition:border-color .15s;user-select:none}
+    .select-trigger.open{border-color:#007AFF;border-radius:10px 10px 0 0}
+    .select-trigger.placeholder{color:#8E8E93}
+    .select-arrow{font-size:12px;color:#8E8E93;transition:transform .2s}
+    .select-arrow.open{transform:rotate(180deg)}
+    .select-dropdown{position:absolute;top:100%;left:0;right:0;background:#fff;border:1px solid #007AFF;border-top:none;border-radius:0 0 10px 10px;overflow:hidden;z-index:10;display:none}
+    .select-dropdown.open{display:block}
+    .select-option{padding:12px 14px;font-size:15px;color:#191919;cursor:pointer;transition:background .1s;display:flex;align-items:center;gap:8px}
+    .select-option:hover{background:#F2F2F7}
+    .select-option.selected{color:#007AFF;font-weight:500}
+    .select-option-check{font-size:13px;margin-left:auto;color:#007AFF;opacity:0}
+    .select-option.selected .select-option-check{opacity:1}
 
-    .stats-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
-    .stat-card { text-align: center; margin-bottom: 0; }
-    .stat-num { display: block; font-size: 22px; font-weight: 800; }
-    .stat-label { font-size: 11px; color: #8e8e93; }
+    .submit-btn{width:100%;background:#191919;color:#fff;border:none;border-radius:10px;padding:14px;font-family:'Pretendard',sans-serif;font-size:16px;font-weight:600;cursor:pointer;transition:opacity .15s,transform .1s;margin-top:4px}
+    .submit-btn:hover{opacity:.85}
+    .submit-btn:active{transform:scale(.98)}
+    .submit-btn:disabled{opacity:.4;cursor:not-allowed}
+    .form-msg{margin-top:8px;font-size:13px;font-weight:500;text-align:center;min-height:18px}
 
-    footer { padding: 40px; text-align: center; font-size: 12px; color: #c7c7cc; }
+    /* 현황 */
+    .stats-row{display:flex;gap:8px;margin-bottom:16px}
+    .stat{flex:1;background:#F2F2F7;border-radius:12px;padding:12px;text-align:center}
+    .stat-num{font-size:22px;font-weight:700;color:#191919;display:block;letter-spacing:-0.5px}
+    .stat-label{font-size:12px;color:#8E8E93;font-weight:500;margin-top:2px}
+
+    .response-list{display:flex;flex-direction:column;gap:0}
+    .response-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid #F2F2F7}
+    .response-row:last-child{border-bottom:none}
+    .response-avatar{width:34px;height:34px;border-radius:50%;background:#F2F2F7;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+    .response-info{flex:1;min-width:0}
+    .response-name{font-size:14px;font-weight:600;color:#191919}
+    .response-msg{font-size:13px;color:#8E8E93;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-top:1px}
+    .badge{font-size:12px;font-weight:600;padding:3px 10px;border-radius:100px;white-space:nowrap;flex-shrink:0}
+    .badge-attend{background:#E8F9EE;color:#1C7F37}
+    .badge-late{background:#FFF3E0;color:#B45309}
+    .badge-no{background:#FEE8E8;color:#C0392B}
+
+    .empty{text-align:center;padding:28px 0;color:#8E8E93;font-size:14px}
+    .empty-icon{font-size:28px;margin-bottom:8px}
+
+    /* 예약 */
+    .res-box{border:1px solid #E5E5EA;border-radius:16px;padding:20px}
+    .res-label{font-size:12px;font-weight:600;color:#8E8E93;margin-bottom:4px}
+    .res-name{font-size:26px;font-weight:700;color:#191919;margin-bottom:10px;letter-spacing:-0.5px}
+    .res-desc{font-size:14px;color:#8E8E93;line-height:1.7}
+
+    /* 애니메이션 */
+    .fade{opacity:0;transform:translateY(12px);animation:fi .45s ease forwards}
+    @keyframes fi{to{opacity:1;transform:translateY(0)}}
+    .d1{animation-delay:.06s}.d2{animation-delay:.12s}.d3{animation-delay:.18s}
+    .d4{animation-delay:.24s}.d5{animation-delay:.30s}.d6{animation-delay:.36s}
+
+    footer{text-align:center;padding:20px;font-size:12px;color:#C7C7CC}
   </style>
 </head>
 <body>
-<div class="page">
-  <div class="hero">
-    <div class="hero-tag"><span class="hero-tag-dot"></span>참석 응답 받는 중</div>
-    <h1 id="hero-title">초대장 불러오는 중...</h1>
-    <div class="hero-chips">
-      <span class="chip">📅 <span id="hero-date">-</span></span>
-      <span class="chip">🕕 <span id="hero-time">-</span></span>
+<div class="wrap">
+
+  <!-- 헤더 -->
+  <div class="header fade">
+    <div class="header-eyebrow">초대장</div>
+    <div class="header-title" id="hero-title"></div>
+    <div class="header-subtitle" id="hero-subtitle"></div>
+    <div class="header-chips">
+      <span class="chip">📅 <span id="hero-date"></span></span>
+      <span class="chip">🕕 <span id="hero-time"></span></span>
     </div>
   </div>
 
-  <div class="section">
-    <div class="section-title">초대의 말</div>
-    <div class="intro-card" id="intro-text"></div>
+  <div class="divider"></div>
+
+  <!-- 초대의 말 -->
+  <div class="section fade d1">
+    <div class="section-label">초대의 말</div>
+    <div class="intro" id="intro-text"></div>
   </div>
 
-  <div class="section">
-    <div class="section-title">장소 안내</div>
-    <div id="venue-list"></div>
+  <!-- 장소 -->
+  <div class="section fade d2">
+    <div class="section-label">장소 안내</div>
+    <div class="venue-list" id="venue-list"></div>
   </div>
 
-  <div class="section">
-    <div class="section-title">참석 여부</div>
-    <div class="rsvp-card">
-      <div class="deadline-badge">⏰ <span id="deadline-text">-</span>까지 회신</div>
+  <!-- RSVP -->
+  <div class="section fade d3">
+    <div class="section-label">참석 여부</div>
+    <div class="rsvp-box">
+      <div class="rsvp-deadline">⏰ <strong id="deadline-text"></strong>까지 회신 부탁드립니다!</div>
+
       <div class="field">
-        <label>성함</label>
-        <input type="text" id="rsvp-name" placeholder="이름 입력" />
+        <div class="field-label">성함</div>
+        <input type="text" id="rsvp-name" placeholder="이름을 입력해주세요"/>
       </div>
-      <div class="rsvp-options" id="rsvp-options"></div>
+
+      <!-- 드롭다운 -->
+      <div class="select-box" id="select-box">
+        <div class="select-trigger placeholder" id="select-trigger" onclick="toggleDropdown()">
+          <span id="select-label">참석 여부를 선택해주세요</span>
+          <span class="select-arrow" id="select-arrow">▼</span>
+        </div>
+        <div class="select-dropdown" id="select-dropdown"></div>
+      </div>
+      <input type="hidden" id="rsvp-status"/>
+
       <div class="field">
-        <label>메시지</label>
-        <textarea id="rsvp-msg" placeholder="여기에 작성해주세요 :)"></textarea>
+        <div class="field-label">한마디 (선택)</div>
+        <textarea id="rsvp-msg" placeholder="짧은 메시지를 남겨주세요 :)"></textarea>
       </div>
+
       <button class="submit-btn" id="submit-btn" onclick="submitRSVP()">참석 여부 보내기</button>
-      <p id="form-msg" style="text-align:center; font-size:13px; margin-top:12px; min-height: 1.2em;"></p>
+      <div class="form-msg" id="form-msg"></div>
     </div>
   </div>
 
-  <div class="section">
-    <div class="section-title">참석 현황</div>
+  <!-- 현황 -->
+  <div class="section fade d4">
+    <div class="section-label">참석자 현황</div>
     <div class="stats-row">
-      <div class="stat-card"><span class="stat-num" id="stat-total">0</span><div class="stat-label">전체</div></div>
-      <div class="stat-card"><span class="stat-num" id="stat-attend">0</span><div class="stat-label">참석</div></div>
-      <div class="stat-card"><span class="stat-num" id="stat-no">0</span><div class="stat-label">불참</div></div>
+      <div class="stat"><span class="stat-num" id="stat-total">–</span><div class="stat-label">전체</div></div>
+      <div class="stat"><span class="stat-num" id="stat-attend">–</span><div class="stat-label">참석</div></div>
+      <div class="stat"><span class="stat-num" id="stat-no">–</span><div class="stat-label">불참</div></div>
     </div>
-    <div id="response-container" style="margin-top:12px;"></div>
+    <div id="response-container">
+      <div class="empty"><div class="empty-icon">🔄</div>불러오는 중...</div>
+    </div>
+  </div>
+
+  <!-- 예약 -->
+  <div class="section fade d5">
+    <div class="section-label">예약 안내</div>
+    <div class="res-box">
+      <div class="res-label">예약명</div>
+      <div class="res-name" id="res-name"></div>
+      <div class="res-desc">먼저 도착하시는 분은 예약 성함을 말씀하시고 편하게 계시면 됩니다.<br>저희는 퇴근 후 최대한 빨리 넘어갈게요! 그날 뵙겠습니다 😊</div>
+    </div>
   </div>
 
   <footer>made with ♥</footer>
 </div>
 
 <script>
-// 데이터 유실 방지를 위한 초기화 로직
-const config = window.EVENT_CONFIG || { title: "초대장", venues: [], rsvp_options: [] };
-const VENUE_ICONS = ['🍖','🍗','🍺','🍣','🍜','🍕','🥗','🍱'];
+var C = null;
 
-function render() {
-  try {
-    document.getElementById('hero-title').textContent = config.title;
-    document.getElementById('hero-date').textContent = config.date || '-';
-    document.getElementById('hero-time').textContent = config.time || '-';
-    document.getElementById('deadline-text').textContent = config.deadline || '-';
-    document.getElementById('intro-text').innerHTML = (config.description || '').replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+function parseBold(s){ return s.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>'); }
+function badgeClass(v){ return v==='from1'?'badge-attend':v==='from2'?'badge-late':'badge-no'; }
+function badgeLabel(v){ var o=C.rsvp_options.find(function(x){return x.value===v;}); return o?o.label:v; }
+function emojiFor(n){ var e=['😄','😊','🙂','😎','🤗','😇','🥳','😁'],s=0; for(var i=0;i<n.length;i++)s+=n.charCodeAt(i); return e[s%e.length]; }
 
-    let vHTML = '';
-    config.venues.forEach((v, i) => {
-      vHTML += `
-        <div class="venue-card">
-          <div class="venue-body">
-            <div class="venue-icon-box">${v.icon || VENUE_ICONS[i%8]}</div>
-            <div class="venue-content">
-              <div class="venue-step">${v.round}</div>
-              <div class="venue-name">${v.name}</div>
-              <div class="venue-desc">${v.description}</div>
-            </div>
-            <a class="venue-map-link" href="${v.map_url}" target="_blank">📍</a>
-          </div>
-        </div>`;
-    });
-    document.getElementById('venue-list').innerHTML = vHTML;
+function render(){
+  document.getElementById('page-title').textContent    = C.title;
+  document.getElementById('hero-title').textContent    = C.title;
+  document.getElementById('hero-subtitle').textContent = C.subtitle;
+  document.getElementById('hero-date').textContent     = C.date;
+  document.getElementById('hero-time').textContent     = C.time;
+  document.getElementById('deadline-text').textContent = C.deadline;
+  document.getElementById('res-name').textContent      = C.reservation_name;
+  document.getElementById('intro-text').innerHTML      = parseBold(C.description);
 
-    let oHTML = '';
-    config.rsvp_options.forEach(o => {
-      oHTML += `<label class="rsvp-opt" onclick="selectOpt(this, '${o.value}')">
-        <input type="radio" name="rsvp_status" value="${o.value}" />
-        <span class="rsvp-opt-label">${o.label}</span>
-      </label>`;
-    });
-    document.getElementById('rsvp-options').innerHTML = oHTML;
-  } catch (e) {
-    console.error("Rendering Error:", e);
-  }
+  // 장소
+  var vHTML='';
+  C.venues.forEach(function(v){
+    vHTML+='<div class="venue-row">'+
+      '<div class="venue-icon">'+(v.icon||'🍽')+'</div>'+
+      '<div class="venue-info">'+
+        '<div class="venue-round">'+v.round+'</div>'+
+        '<div class="venue-name">'+v.name+'</div>'+
+        '<div class="venue-desc">'+v.description+'</div>'+
+      '</div>'+
+      '<a class="venue-map" href="'+v.map_url+'" target="_blank" rel="noopener">📍 지도</a>'+
+    '</div>';
+    if(v.tip)   vHTML+='<div class="venue-extra tip">💡 <strong>'+v.tip.author+' 픽</strong>&nbsp;'+v.tip.text+'</div>';
+    if(v.warning) vHTML+='<div class="venue-extra warn">⚠️ <strong>주의</strong>&nbsp;'+v.warning+'</div>';
+  });
+  document.getElementById('venue-list').innerHTML=vHTML;
+
+  // 드롭다운 옵션
+  var dHTML='';
+  C.rsvp_options.forEach(function(o){
+    dHTML+='<div class="select-option" data-value="'+o.value+'" onclick="selectOption(\''+o.value+'\',\''+o.label+'\')">'+
+      o.label+'<span class="select-option-check">✓</span></div>';
+  });
+  document.getElementById('select-dropdown').innerHTML=dHTML;
 }
 
-function selectOpt(el, val) {
-  document.querySelectorAll('.rsvp-opt').forEach(o=>o.classList.remove('selected'));
-  el.classList.add('selected');
-  const input = el.querySelector('input');
-  if(input) input.checked = true;
+// 드롭다운
+function toggleDropdown(){
+  var dd=document.getElementById('select-dropdown');
+  var tr=document.getElementById('select-trigger');
+  var ar=document.getElementById('select-arrow');
+  var open=dd.classList.contains('open');
+  dd.classList.toggle('open',!open);
+  tr.classList.toggle('open',!open);
+  ar.classList.toggle('open',!open);
 }
-
-function submitRSVP() {
-  const name = document.getElementById('rsvp-name').value.trim();
-  const statusInput = document.querySelector('input[name="rsvp_status"]:checked');
-  const msg = document.getElementById('rsvp-msg').value.trim();
-  const msgEl = document.getElementById('form-msg');
-  const btn = document.getElementById('submit-btn');
-
-  if(!name || !statusInput) {
-    msgEl.style.color = '#ff3b30';
-    msgEl.textContent = '성함과 참석 여부를 입력해주세요!';
-    return;
+function selectOption(value,label){
+  document.getElementById('rsvp-status').value=value;
+  var lbl=document.getElementById('select-label');
+  lbl.textContent=label;
+  lbl.style.color='#191919';
+  document.getElementById('select-trigger').classList.remove('placeholder');
+  document.querySelectorAll('.select-option').forEach(function(el){
+    el.classList.toggle('selected', el.dataset.value===value);
+  });
+  toggleDropdown();
+}
+document.addEventListener('click',function(e){
+  if(!document.getElementById('select-box').contains(e.target)){
+    document.getElementById('select-dropdown').classList.remove('open');
+    document.getElementById('select-trigger').classList.remove('open');
+    document.getElementById('select-arrow').classList.remove('open');
   }
+});
 
-  btn.disabled = true;
-  btn.textContent = '보내는 중...';
-  msgEl.style.color = '#007aff';
-  msgEl.textContent = '데이터를 안전하게 전송하고 있습니다.';
-
-  fetch(config.gas_url, {
-    method: 'POST',
-    mode: 'no-cors',
-    body: JSON.stringify({ event_id: config.event_id, name: name, status: statusInput.value, message: msg })
-  }).then(() => {
-    msgEl.style.color = '#34c759';
-    msgEl.textContent = '✅ 전송 완료! 현황을 업데이트합니다.';
-    btn.textContent = '참석 응답 완료';
-    setTimeout(loadResponses, 1000);
-  }).catch(err => {
-    console.error(err);
-    btn.disabled = false;
-    btn.textContent = '다시 보내기';
-    msgEl.textContent = '전송 실패 😢 잠시 후 다시 시도해주세요.';
+// 제출
+function submitRSVP(){
+  var name  =document.getElementById('rsvp-name').value.trim();
+  var status=document.getElementById('rsvp-status').value;
+  var msg   =document.getElementById('rsvp-msg').value.trim();
+  var msgEl =document.getElementById('form-msg');
+  var btn   =document.getElementById('submit-btn');
+  if(!name)  {msgEl.style.color='#C0392B';msgEl.textContent='성함을 입력해주세요.';return;}
+  if(!status){msgEl.style.color='#C0392B';msgEl.textContent='참석 여부를 선택해주세요.';return;}
+  btn.disabled=true; btn.textContent='전송 중...'; msgEl.textContent='';
+  fetch(GAS_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},
+    body:JSON.stringify({event_id:C.event_id,name:name,status:status,message:msg})
+  }).then(function(){
+    msgEl.style.color='#1C7F37'; msgEl.textContent='✅ 전송 완료! 감사합니다 😊';
+    btn.textContent='전송 완료';
+    setTimeout(loadResponses,2000);
+  }).catch(function(){
+    msgEl.style.color='#C0392B'; msgEl.textContent='❌ 오류가 발생했어요. 다시 시도해주세요.';
+    btn.disabled=false; btn.textContent='참석 여부 보내기';
   });
 }
 
-function loadResponses() {
-  if(!config.gas_url) return;
-  const old = document.getElementById('__jsonp'); if(old) old.remove();
-  
-  window.__gasCallback = function(json) {
-    if(!json || !json.data) return;
-    const rows = json.data.filter(r => r.event_id === config.event_id);
-    document.getElementById('stat-total').textContent = rows.length;
-    document.getElementById('stat-attend').textContent = rows.filter(r=>r.status!=='no').length;
-    document.getElementById('stat-no').textContent = rows.filter(r=>r.status==='no').length;
-    // 리스트 렌더링 생략 (먹통 방지 위해 상태값만 업데이트)
+// 현황 (JSONP)
+function loadResponses(){
+  var old=document.getElementById('__jsonp');
+  if(old) old.parentNode.removeChild(old);
+  window.__gasCallback=function(json){
+    var rows=(json.data||[]).filter(function(r){return r.event_id===C.event_id;});
+    document.getElementById('stat-total').textContent =rows.length;
+    document.getElementById('stat-attend').textContent=rows.filter(function(r){return r.status!=='no';}).length;
+    document.getElementById('stat-no').textContent    =rows.filter(function(r){return r.status==='no';}).length;
+    var con=document.getElementById('response-container');
+    if(!rows.length){con.innerHTML='<div class="empty"><div class="empty-icon">🙈</div>아직 응답이 없어요</div>';return;}
+    var h='<div class="response-list">';
+    rows.forEach(function(r){
+      h+='<div class="response-row">'+
+        '<div class="response-avatar">'+emojiFor(r.name||'')+'</div>'+
+        '<div class="response-info">'+
+          '<div class="response-name">'+(r.name||'-')+'</div>'+
+          (r.message?'<div class="response-msg">'+r.message+'</div>':'')+
+        '</div>'+
+        '<span class="badge '+badgeClass(r.status)+'">'+badgeLabel(r.status)+'</span>'+
+      '</div>';
+    });
+    h+='</div>';
+    con.innerHTML=h;
   };
-
-  const s = document.createElement('script');
-  s.id = '__jsonp';
-  s.src = config.gas_url + '?action=read&callback=__gasCallback&t=' + Date.now();
+  var s=document.createElement('script');
+  s.id='__jsonp';
+  s.src=GAS_URL+'?action=read&callback=__gasCallback&t='+Date.now();
+  s.onerror=function(){
+    document.getElementById('response-container').innerHTML=
+      '<div class="empty"><div class="empty-icon">😢</div>현황을 불러오지 못했어요</div>';
+  };
   document.body.appendChild(s);
 }
 
-render();
-loadResponses();
+// 초기화: Sheets에서 config 로드, 없으면 DEFAULT_CONFIG 사용
+function init(){
+  window.__configCallback=function(json){
+    C=json.success?json.config:DEFAULT_CONFIG;
+    render();
+    loadResponses();
+  };
+  var s=document.createElement('script');
+  s.src=GAS_URL+'?action=getConfig&event_id='+DEFAULT_CONFIG.event_id+'&callback=__configCallback&t='+Date.now();
+  s.onerror=function(){ C=DEFAULT_CONFIG; render(); loadResponses(); };
+  document.body.appendChild(s);
+}
+init();
 </script>
 </body>
 </html>
