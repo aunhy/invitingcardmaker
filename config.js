@@ -60,5 +60,5 @@ const EVENT_CONFIG = {
   ],
 
   // Google Apps Script 배포 URL (배포 후 여기 붙여넣기)
-  gas_url: "https://script.google.com/macros/s/여기에_배포_URL_붙여넣기/exec",
+  gas_url: "https://script.google.com/macros/s/AKfycbwaM8ho14hqtUQx0uF7A8emOCBPCAOuo6KpHePq10SLtzacEZgZFm-tbn-NLwJWGf7GMg/exec",
 };
