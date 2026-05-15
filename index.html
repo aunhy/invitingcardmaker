@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title id="page-title">초대장</title>
+
+  <!-- config.js 가 먼저 로드되어야 함 -->
+  <script src="config.js"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600;700&family=DM+Serif+Display:ital@0;1&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── 토큰 ── */
+    :root {
+      --cream:   #faf7f2;
+      --ink:     #1a1410;
+      --muted:   #6b5e52;
+      --accent:  #c4622d;
+      --accent2: #e8a87c;
+      --line:    #ddd5c8;
+      --card:    #ffffff;
+      --tip-bg:  #fff8f0;
+      --warn-bg: #fff3ee;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: 'Noto Sans KR', sans-serif;
+      font-weight: 300;
+      line-height: 1.75;
+      min-height: 100vh;
+    }
+
+    /* ── 페이지 래퍼 ── */
+    .page {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 0 20px 80px;
+    }
+
+    /* ── 히어로 ── */
+    .hero {
+      text-align: center;
+      padding: 64px 0 40px;
+      border-bottom: 1px solid var(--line);
+    }
+    .hero-eyebrow {
+      font-family: 'DM Serif Display', serif;
+      font-style: italic;
+      font-size: 13px;
+      letter-spacing: .18em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-family: 'Noto Serif KR', serif;
+      font-size: clamp(26px, 7vw, 38px);
+      font-weight: 700;
+      line-height: 1.25;
+      margin-bottom: 10px;
+    }
+    .hero h2 {
+      font-family: 'Noto Serif KR', serif;
+      font-size: clamp(15px, 4vw, 19px);
+      font-weight: 300;
+      color: var(--muted);
+      margin-bottom: 28px;
+    }
+    .hero-meta {
+      display: inline-flex;
+      gap: 24px;
+      background: var(--ink);
+      color: var(--cream);
+      padding: 10px 28px;
+      border-radius: 2px;
+      font-size: 13px;
+      letter-spacing: .06em;
+    }
+    .hero-meta span::before { content: '📅 '; }
+    .hero-meta span:last-child::before { content: '🕕 '; }
+
+    /* ── 섹션 공통 ── */
+    section { margin-top: 44px; }
+    .section-label {
+      font-size: 10px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: 500;
+      margin-bottom: 14px;
+    }
+
+    /* ── 초대 본문 ── */
+    .intro-text {
+      font-size: 15px;
+      color: var(--ink);
+      white-space: pre-line;
+    }
+    .intro-text strong { font-weight: 600; }
+
+    /* ── 장소 카드 ── */
+    .venue-list { display: flex; flex-direction: column; gap: 16px; }
+
+    .venue-card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      overflow: hidden;
+      transition: box-shadow .2s;
+    }
+    .venue-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,.07); }
+
+    .venue-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--line);
+    }
+    .venue-round {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: var(--tip-bg);
+      border: 1px solid var(--accent2);
+      padding: 3px 10px;
+      border-radius: 20px;
+    }
+    .venue-name {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 16px;
+      font-weight: 600;
+    }
+    .map-btn {
+      font-size: 12px;
+      color: var(--accent);
+      text-decoration: none;
+      border: 1px solid var(--accent2);
+      padding: 4px 12px;
+      border-radius: 20px;
+      white-space: nowrap;
+      transition: background .15s;
+    }
+    .map-btn:hover { background: var(--tip-bg); }
+
+    .venue-body { padding: 14px 18px; display: flex; flex-direction: column; gap: 10px; }
+    .venue-desc { font-size: 14px; color: var(--muted); }
+
+    .tip {
+      background: var(--tip-bg);
+      border-left: 3px solid var(--accent2);
+      padding: 8px 12px;
+      font-size: 13px;
+      border-radius: 0 4px 4px 0;
+    }
+    .tip strong { color: var(--accent); }
+
+    .warning {
+      background: var(--warn-bg);
+      border-left: 3px solid #e07050;
+      padding: 8px 12px;
+      font-size: 13px;
+      color: #a04030;
+      border-radius: 0 4px 4px 0;
+    }
+
+    /* ── RSVP 폼 ── */
+    .rsvp-card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 24px 20px;
+    }
+    .deadline-note {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+    .deadline-note strong { color: var(--accent); }
+
+    .field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+    .field label { font-size: 12px; letter-spacing: .1em; color: var(--muted); text-transform: uppercase; }
+    .field input, .field textarea {
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: 10px 14px;
+      font-family: inherit;
+      font-size: 14px;
+      color: var(--ink);
+      background: var(--cream);
+      outline: none;
+      transition: border-color .15s;
+    }
+    .field input:focus, .field textarea:focus { border-color: var(--accent); }
+    .field textarea { resize: vertical; min-height: 70px; }
+
+    .rsvp-options { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+    .rsvp-option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 11px 14px;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      cursor: pointer;
+      transition: border-color .15s, background .15s;
+      font-size: 14px;
+    }
+    .rsvp-option:has(input:checked) {
+      border-color: var(--accent);
+      background: var(--tip-bg);
+    }
+    .rsvp-option input { accent-color: var(--accent); width: 15px; height: 15px; }
+
+    .submit-btn {
+      width: 100%;
+      background: var(--ink);
+      color: var(--cream);
+      border: none;
+      padding: 14px;
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 14px;
+      letter-spacing: .08em;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background .2s, transform .1s;
+    }
+    .submit-btn:hover  { background: #2e2520; }
+    .submit-btn:active { transform: scale(.98); }
+    .submit-btn:disabled { background: var(--muted); cursor: not-allowed; }
+
+    .form-msg {
+      margin-top: 12px;
+      font-size: 13px;
+      text-align: center;
+      min-height: 20px;
+      color: var(--accent);
+    }
+
+    /* ── 참석 현황 ── */
+    .stats-bar {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 16px;
+      font-size: 14px;
+    }
+    .stat { display: flex; align-items: center; gap: 6px; }
+    .stat-num { font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--accent); }
+
+    .responses-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .responses-table th {
+      text-align: left;
+      padding: 8px 10px;
+      font-weight: 500;
+      font-size: 11px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      border-bottom: 2px solid var(--line);
+    }
+    .responses-table td {
+      padding: 10px 10px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+    }
+    .responses-table tr:last-child td { border-bottom: none; }
+
+    .badge {
+      display: inline-block;
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+    .badge-attend  { background: #edf7ed; color: #2d7a2d; }
+    .badge-late    { background: #fff3e0; color: #a05c00; }
+    .badge-no      { background: #fce8e8; color: #b03030; }
+
+    /* ── 예약 안내 ── */
+    .reservation-box {
+      background: var(--ink);
+      color: var(--cream);
+      border-radius: 6px;
+      padding: 20px 20px;
+      font-size: 14px;
+      line-height: 1.8;
+    }
+    .reservation-box .res-name {
+      font-family: 'DM Serif Display', serif;
+      font-size: 22px;
+      color: var(--accent2);
+      display: block;
+      margin: 4px 0 10px;
+    }
+
+    /* ── 푸터 ── */
+    footer {
+      text-align: center;
+      margin-top: 60px;
+      font-size: 12px;
+      color: var(--line);
+      letter-spacing: .08em;
+    }
+
+    /* ── 스켈레톤 ── */
+    .skeleton {
+      background: linear-gradient(90deg, var(--line) 25%, #ede5d8 50%, var(--line) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.4s infinite;
+      border-radius: 4px;
+      height: 14px;
+    }
+    @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+
+    /* ── 페이지 진입 애니메이션 ── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(18px);
+      animation: fadeUp .6s ease forwards;
+    }
+    @keyframes fadeUp { to { opacity:1; transform:translateY(0); } }
+    .delay-1 { animation-delay: .1s; }
+    .delay-2 { animation-delay: .2s; }
+    .delay-3 { animation-delay: .3s; }
+    .delay-4 { animation-delay: .4s; }
+    .delay-5 { animation-delay: .5s; }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- 히어로 -->
+  <header class="hero fade-up">
+    <p class="hero-eyebrow">You're Invited</p>
+    <h1 id="hero-title"></h1>
+    <h2 id="hero-subtitle"></h2>
+    <div class="hero-meta">
+      <span id="hero-date"></span>
+      <span id="hero-time"></span>
+    </div>
+  </header>
+
+  <!-- 초대 본문 -->
+  <section class="fade-up delay-1">
+    <p class="section-label">초대의 말</p>
+    <p class="intro-text" id="intro-text"></p>
+  </section>
+
+  <!-- 장소 -->
+  <section class="fade-up delay-2">
+    <p class="section-label">장소 안내</p>
+    <div class="venue-list" id="venue-list"></div>
+  </section>
+
+  <!-- RSVP -->
+  <section class="fade-up delay-3">
+    <p class="section-label">참석 여부 알려주기</p>
+    <div class="rsvp-card">
+      <p class="deadline-note"><strong id="deadline-text"></strong>까지 회신 부탁드립니다!</p>
+
+      <div class="field">
+        <label>성함</label>
+        <input type="text" id="rsvp-name" placeholder="이름을 입력해주세요" />
+      </div>
+
+      <div class="rsvp-options" id="rsvp-options"></div>
+
+      <div class="field">
+        <label>한마디 (선택)</label>
+        <textarea id="rsvp-msg" placeholder="짧은 메시지를 남겨주세요 :)"></textarea>
+      </div>
+
+      <button class="submit-btn" id="submit-btn" onclick="submitRSVP()">제출하기</button>
+      <p class="form-msg" id="form-msg"></p>
+    </div>
+  </section>
+
+  <!-- 참석 현황 -->
+  <section class="fade-up delay-4">
+    <p class="section-label">참석자 현황</p>
+    <div class="stats-bar">
+      <div class="stat"><span class="stat-num" id="stat-total">–</span> 전체</div>
+      <div class="stat"><span class="stat-num" id="stat-attend">–</span> 참석</div>
+      <div class="stat"><span class="stat-num" id="stat-no">–</span> 불참</div>
+    </div>
+    <table class="responses-table">
+      <thead>
+        <tr>
+          <th>성함</th>
+          <th>참석 여부</th>
+          <th>한마디</th>
+        </tr>
+      </thead>
+      <tbody id="responses-body">
+        <tr><td colspan="3"><div class="skeleton" style="width:60%"></div></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 예약 안내 -->
+  <section class="fade-up delay-5">
+    <p class="section-label">예약 안내</p>
+    <div class="reservation-box">
+      📝 예약명:
+      <span class="res-name" id="res-name"></span>
+      먼저 도착하시는 분은 예약 성함을 말씀하시고 편하게 계시면 됩니다.<br>
+      저희는 퇴근 후 최대한 빨리 넘어갈게요! 그날 뵙겠습니다. 😊
+    </div>
+  </section>
+
+  <footer><p>made with ♥</p></footer>
+</div>
+
+<script>
+// ── 마크다운 bold 파싱 ──
+function parseBold(str) {
+  return str.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+}
+
+// ── 배지 클래스 ──
+function badgeClass(value) {
+  if (!value) return '';
+  const v = value.toLowerCase();
+  if (v === 'from1') return 'badge-attend';
+  if (v === 'from2') return 'badge-late';
+  if (v === 'no')    return 'badge-no';
+  return '';
+}
+
+function badgeLabel(value) {
+  if (!EVENT_CONFIG) return value;
+  const opt = EVENT_CONFIG.rsvp_options.find(o => o.value === value);
+  return opt ? opt.label : value;
+}
+
+// ── DOM 렌더링 ──
+function render() {
+  const c = EVENT_CONFIG;
+
+  document.getElementById('page-title').textContent = c.title;
+  document.getElementById('hero-title').textContent  = c.title;
+  document.getElementById('hero-subtitle').textContent = c.subtitle;
+  document.getElementById('hero-date').textContent   = c.date;
+  document.getElementById('hero-time').textContent   = c.time;
+  document.getElementById('deadline-text').textContent = c.deadline;
+  document.getElementById('res-name').textContent    = c.reservation_name;
+
+  // 본문 (bold 파싱)
+  document.getElementById('intro-text').innerHTML = parseBold(c.description);
+
+  // 장소 카드
+  const venueList = document.getElementById('venue-list');
+  venueList.innerHTML = c.venues.map(v => `
+    <div class="venue-card">
+      <div class="venue-header">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span class="venue-round">${v.round}</span>
+          <span class="venue-name">${v.name}</span>
+        </div>
+        <a class="map-btn" href="${v.map_url}" target="_blank" rel="noopener">📍 지도보기</a>
+      </div>
+      <div class="venue-body">
+        <p class="venue-desc">${v.description}</p>
+        ${v.tip    ? `<div class="tip">💡 <strong>${v.tip.author} 픽:</strong> "${v.tip.text}"</div>` : ''}
+        ${v.warning ? `<div class="warning">⚠️ ${v.warning}</div>` : ''}
+      </div>
+    </div>
+  `).join('');
+
+  // RSVP 옵션
+  const optContainer = document.getElementById('rsvp-options');
+  optContainer.innerHTML = c.rsvp_options.map(o => `
+    <label class="rsvp-option">
+      <input type="radio" name="rsvp_status" value="${o.value}" />
+      ${o.label}
+    </label>
+  `).join('');
+}
+
+// ── RSVP 제출 ──
+async function submitRSVP() {
+  const name   = document.getElementById('rsvp-name').value.trim();
+  const status = document.querySelector('input[name="rsvp_status"]:checked')?.value;
+  const msg    = document.getElementById('rsvp-msg').value.trim();
+  const msgEl  = document.getElementById('form-msg');
+  const btn    = document.getElementById('submit-btn');
+
+  if (!name)   { msgEl.textContent = '성함을 입력해주세요.'; return; }
+  if (!status) { msgEl.textContent = '참석 여부를 선택해주세요.'; return; }
+
+  btn.disabled = true;
+  btn.textContent = '제출 중...';
+  msgEl.textContent = '';
+
+  try {
+    await fetch(EVENT_CONFIG.gas_url, {
+      method: 'POST',
+      body: JSON.stringify({ event_id: EVENT_CONFIG.event_id, name, status, message: msg }),
+    });
+    msgEl.style.color = '#2d7a2d';
+    msgEl.textContent = '✅ 제출되었습니다! 감사합니다 😊';
+    btn.textContent = '제출 완료';
+    loadResponses();
+  } catch (e) {
+    msgEl.style.color = '#b03030';
+    msgEl.textContent = '❌ 오류가 발생했습니다. 다시 시도해주세요.';
+    btn.disabled = false;
+    btn.textContent = '제출하기';
+  }
+}
+
+// ── 참석 현황 불러오기 ──
+async function loadResponses() {
+  const tbody = document.getElementById('responses-body');
+  try {
+    const res  = await fetch(`${EVENT_CONFIG.gas_url}?action=read`);
+    const json = await res.json();
+
+    // 현재 행사 ID 필터
+    const rows = (json.data || []).filter(r => r.event_id === EVENT_CONFIG.event_id);
+
+    const total  = rows.length;
+    const attend = rows.filter(r => r.status !== 'no').length;
+    const no     = rows.filter(r => r.status === 'no').length;
+
+    document.getElementById('stat-total').textContent  = total;
+    document.getElementById('stat-attend').textContent = attend;
+    document.getElementById('stat-no').textContent     = no;
+
+    if (rows.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="3" style="color:var(--muted);text-align:center;padding:20px">아직 응답이 없어요 🥲</td></tr>';
+      return;
+    }
+
+    tbody.innerHTML = rows.map(r => `
+      <tr>
+        <td><strong>${r.name || '-'}</strong></td>
+        <td><span class="badge ${badgeClass(r.status)}">${badgeLabel(r.status)}</span></td>
+        <td style="color:var(--muted)">${r.message || ''}</td>
+      </tr>
+    `).join('');
+  } catch {
+    tbody.innerHTML = '<tr><td colspan="3" style="color:var(--muted);text-align:center">현황을 불러오지 못했어요.<br>gas_url을 확인해주세요.</td></tr>';
+  }
+}
+
+// ── 초기 실행 ──
+render();
+loadResponses();
+</script>
+</body>
+</html>
