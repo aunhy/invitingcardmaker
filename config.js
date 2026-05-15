@@ -55,5 +55,5 @@ const EVENT_CONFIG = {
   ],
 
   // ⬇️ Google Apps Script 배포 URL
-  gas_url: "https://script.google.com/macros/s/AKfycbz9mgr2Es6iPGCDikOe6snE95Cw4M4I7RGhjNQYMtRgC71eNl2sDgdewPFTzMc4io644Q/exec",
+  gas_url: "https://script.google.com/macros/s/AKfycbze6TyYIKtgxrjNZNbZRCsY_8FNblKtt_aSgjXDGJ2SuR9M2w37WJ_2EfepMgbc9gug-Q/exec",
 };
