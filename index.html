@@ -7,134 +7,159 @@
   <script src="config.js"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   <style>
-/* ── 디자인 복구 및 완성 스타일 ── */
-:root {
-  --primary-bg: #f0f2f5;
-  --card-bg: #ffffff;
-  --accent-color: #007AFF;
-  --text-main: #1d1d1f;
-  --text-sub: #86868b;
-}
+    /* ── 디자인 복구 및 완성 스타일 ── */
+    :root {
+      --primary-bg: #f0f2f5;
+      --card-bg: #ffffff;
+      --accent-color: #007AFF;
+      --text-main: #1d1d1f;
+      --text-sub: #86868b;
+    }
 
-* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
-body {
-  font-family: 'Pretendard', -apple-system, sans-serif;
-  background-color: var(--primary-bg);
-  background: linear-gradient(180deg, #e9ecef 0%, #f8f9fa 100%);
-  color: var(--text-main);
-  line-height: 1.6;
-  padding: 20px 16px 60px;
-}
+    body {
+      font-family: 'Pretendard', -apple-system, sans-serif;
+      background-color: var(--primary-bg);
+      background: linear-gradient(180deg, #e9ecef 0%, #f8f9fa 100%);
+      color: var(--text-main);
+      line-height: 1.6;
+      padding: 20px 16px 60px;
+    }
 
-.page { max-width: 460px; margin: 0 auto; }
+    .page { max-width: 460px; margin: 0 auto; }
 
-/* 히어로 & 섹션 공통 */
-.hero { background: #1c1c1e; color: #fff; padding: 40px 24px; border-radius: 28px; margin-bottom: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-.section-title { font-size: 13px; font-weight: 700; color: #8e8e93; margin: 24px 0 12px 8px; text-transform: uppercase; }
+    /* 히어로 섹션 */
+    .hero { 
+      background: #1c1c1e; 
+      color: #fff; 
+      padding: 44px 24px; 
+      border-radius: 28px; 
+      margin-bottom: 24px; 
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255,255,255,0.1);
+      color: #30D158;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 5px 12px;
+      border-radius: 100px;
+      margin-bottom: 16px;
+    }
+    .hero-tag-dot { width: 6px; height: 6px; background: #30D158; border-radius: 50%; box-shadow: 0 0 8px #30D158; }
+    .hero h1 { font-size: 28px; font-weight: 800; line-height: 1.3; margin-bottom: 8px; letter-spacing: -0.5px; }
+    .hero h2 { font-size: 16px; font-weight: 400; color: #a1a1a6; margin-bottom: 24px; }
+    .hero-chips { display: flex; gap: 8px; flex-wrap: wrap; }
+    .chip { background: rgba(255,255,255,0.15); padding: 7px 14px; border-radius: 12px; font-size: 13px; font-weight: 600; backdrop-filter: blur(4px); }
 
-/* 카드 공통 스타일 (깨짐 방지) */
-.intro-card, .rsvp-card, .venue-list, .stat-card, .reservation-card {
-  background: var(--card-bg);
-  border-radius: 24px;
-  padding: 20px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-  overflow: hidden;
-}
+    .section-title { font-size: 13px; font-weight: 700; color: #8e8e93; margin: 28px 0 12px 8px; text-transform: uppercase; letter-spacing: 0.05em; }
 
-/* 장소 안내 수정 (지도 버튼 위치 고정) */
-.venue-list { padding: 0; }
-.venue-item {
-  display: flex; align-items: center; gap: 12px; padding: 20px;
-  border-bottom: 1px solid #f2f2f7;
-}
-.venue-item:last-child { border-bottom: none; }
-.venue-info { flex: 1; min-width: 0; }
-.venue-name { font-size: 15px; font-weight: 700; margin-bottom: 2px; }
-.venue-desc { font-size: 13px; color: var(--text-sub); }
-.venue-map-btn { 
-  background: #1c1c1e; color: #fff; text-decoration: none;
-  padding: 8px 12px; border-radius: 10px; font-size: 12px; font-weight: 600; flex-shrink: 0;
-}
+    /* 카드 공통 */
+    .intro-card, .rsvp-card, .venue-list, .stat-card, .reservation-card {
+      background: var(--card-bg);
+      border-radius: 24px;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    }
 
-/* ⚠️ 문제의 RSVP 섹션 집중 수술 */
-.rsvp-card { padding: 24px; }
-.deadline-badge { display: block; font-size: 15px; font-weight: 700; margin-bottom: 20px; color: #1c1c1e; }
+    .intro-card { font-size: 16px; line-height: 1.8; color: #3a3a3c; white-space: pre-line; }
 
-.field { margin-bottom: 20px; width: 100%; }
-.field label { display: block; font-size: 13px; font-weight: 600; color: var(--text-sub); margin-bottom: 8px; }
+    /* 장소 안내 */
+    .venue-list { padding: 0; overflow: hidden; }
+    .venue-item { display: flex; align-items: center; gap: 14px; padding: 20px; border-bottom: 1px solid #f2f2f7; }
+    .venue-item:last-child { border-bottom: none; }
+    .venue-icon { width: 44px; height: 44px; border-radius: 12px; background: #f5f5f7; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+    .venue-info { flex: 1; min-width: 0; }
+    .venue-round { font-size: 11px; font-weight: 700; color: var(--accent-color); margin-bottom: 2px; }
+    .venue-name { font-size: 15px; font-weight: 700; margin-bottom: 2px; color: #1c1c1e; }
+    .venue-desc { font-size: 13px; color: var(--text-sub); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .venue-map-btn { background: #1c1c1e; color: #fff; text-decoration: none; padding: 8px 14px; border-radius: 10px; font-size: 12px; font-weight: 600; flex-shrink: 0; }
 
-/* 입력창 깔끔하게 */
-.field input, .field textarea {
-  width: 100%; padding: 14px; border-radius: 14px;
-  border: 1px solid #e5e5ea; background: #f9f9fb;
-  font-size: 15px; font-family: inherit; outline: none;
-}
+    .venue-extra { background: #f8f9fa; margin: 12px 20px; padding: 12px; border-radius: 12px; font-size: 13px; border-left: 3px solid var(--accent-color); }
 
-/* 라디오 옵션 - 세로로 정렬하여 글씨 겹침 방지 */
-.rsvp-options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
-.rsvp-opt {
-  display: flex; align-items: center; gap: 12px;
-  padding: 14px 16px; border-radius: 14px;
-  background: #f5f5f7; border: 2px solid transparent;
-  cursor: pointer; transition: 0.2s;
-}
-.rsvp-opt.selected {
-  background: #eef7ff; border-color: var(--accent-color);
-}
-.rsvp-opt input { display: none; } /* 실제 체크박스는 숨김 */
-.rsvp-opt-label { font-size: 15px; font-weight: 500; color: #1c1c1e; }
+    /* RSVP 섹션 수술 완료 */
+    .rsvp-card { padding: 24px; }
+    .deadline-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 700; color: #e67e22; background: #fff5eb; padding: 6px 12px; border-radius: 8px; margin-bottom: 20px; }
+    
+    .field { margin-bottom: 20px; }
+    .field label { display: block; font-size: 13px; font-weight: 700; color: #48484a; margin-bottom: 8px; }
+    .field input, .field textarea {
+      width: 100%; padding: 14px; border-radius: 12px; border: 1.5px solid #efeff4; background: #f9f9fb; font-size: 15px; font-family: inherit; outline: none; transition: 0.2s;
+    }
+    .field input:focus, .field textarea:focus { border-color: var(--accent-color); background: #fff; }
 
-/* 전송 버튼 - 꽉 차게 */
-.submit-btn {
-  width: 100%; padding: 18px; border-radius: 16px;
-  background: var(--accent-color); color: #fff;
-  border: none; font-size: 16px; font-weight: 700;
-  cursor: pointer; box-shadow: 0 4px 15px rgba(0, 122, 255, 0.3);
-}
+    .rsvp-options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+    .rsvp-opt {
+      display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-radius: 14px; background: #f2f2f7; border: 2px solid transparent; cursor: pointer; transition: 0.2s;
+    }
+    .rsvp-opt.selected { background: #eef7ff; border-color: var(--accent-color); }
+    .rsvp-opt input { display: none; }
+    .rsvp-opt-label { font-size: 15px; font-weight: 600; color: #1c1c1e; }
 
-/* 참석 현황 카드 */
-.stats-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 12px; }
-.stat-card { text-align: center; padding: 16px 10px; }
-.stat-num { display: block; font-size: 20px; font-weight: 800; }
-.stat-label { font-size: 11px; color: var(--text-sub); }
+    .submit-btn {
+      width: 100%; padding: 18px; border-radius: 16px; background: var(--accent-color); color: #fff; border: none; font-size: 16px; font-weight: 700; cursor: pointer; transition: 0.2s;
+    }
+    .submit-btn:active { transform: scale(0.98); opacity: 0.9; }
 
-/* 예약 안내 (검정색 카드) */
-.reservation-card { background: #1c1c1e; color: #fff; padding: 24px; }
-.res-name { font-size: 24px; font-weight: 700; margin: 8px 0; color: var(--accent-color); }
-}
+    /* 현황판 */
+    .stats-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+    .stat-card { text-align: center; padding: 16px 10px; }
+    .stat-num { display: block; font-size: 22px; font-weight: 800; color: #1c1c1e; }
+    .stat-label { font-size: 11px; color: var(--text-sub); font-weight: 600; }
+
+    .response-list { display: flex; flex-direction: column; gap: 8px; }
+    .response-item { background: #fff; padding: 12px 16px; border-radius: 16px; display: flex; align-items: center; gap: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
+    .response-avatar { width: 36px; height: 36px; border-radius: 50%; background: #f2f2f7; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+    .response-info { flex: 1; min-width: 0; }
+    .response-name { font-size: 14px; font-weight: 700; }
+    .response-msg { font-size: 12px; color: var(--text-sub); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .status-badge { font-size: 11px; font-weight: 700; padding: 4px 8px; border-radius: 6px; }
+    .badge-attend { background: #e8f9ee; color: #1a7f37; }
+    .badge-late { background: #fff3e0; color: #b45309; }
+    .badge-no { background: #fee8e8; color: #c0392b; }
+
+    /* 예약 안내 */
+    .reservation-card { background: #1c1c1e; color: #fff; padding: 28px; }
+    .res-label { font-size: 12px; font-weight: 600; color: #8e8e93; }
+    .res-name { font-size: 26px; font-weight: 800; margin: 6px 0 12px; color: var(--accent-color); }
+    .res-desc { font-size: 14px; color: #a1a1a6; line-height: 1.7; }
+
+    footer { padding: 40px; text-align: center; font-size: 12px; color: #c7c7cc; }
+
+    /* 애니메이션 */
+    .fade-up { opacity: 0; transform: translateY(10px); animation: fup 0.5s ease forwards; }
+    @keyframes fup { to { opacity: 1; transform: translateY(0); } }
+    .d1{animation-delay:.1s} .d2{animation-delay:.2s} .d3{animation-delay:.3s} .d4{animation-delay:.4s} .d5{animation-delay:.5s}
   </style>
 </head>
 <body>
 <div class="page">
-
-  <!-- 히어로 -->
   <div class="hero fade-up">
-    <div class="hero-tag">
-      <span class="hero-tag-dot"></span>
-      참석 응답 받는 중
-    </div>
+    <div class="hero-tag"><span class="hero-tag-dot"></span>참석 응답 받는 중</div>
     <h1 id="hero-title"></h1>
     <h2 id="hero-subtitle"></h2>
     <div class="hero-chips">
-      <span class="chip"><span class="chip-emoji">📅</span><span id="hero-date"></span></span>
-      <span class="chip"><span class="chip-emoji">🕕</span><span id="hero-time"></span></span>
+      <span class="chip">📅 <span id="hero-date"></span></span>
+      <span class="chip">🕕 <span id="hero-time"></span></span>
     </div>
   </div>
 
-  <!-- 본문 -->
   <div class="section fade-up d1">
     <div class="section-title">초대의 말</div>
     <div class="intro-card" id="intro-text"></div>
   </div>
 
-  <!-- 장소 -->
   <div class="section fade-up d2">
     <div class="section-title">장소 안내</div>
     <div class="venue-list" id="venue-list"></div>
   </div>
 
-  <!-- RSVP -->
   <div class="section fade-up d3">
     <div class="section-title">참석 여부 알려주기</div>
     <div class="rsvp-card">
@@ -149,11 +174,10 @@ body {
         <textarea id="rsvp-msg" placeholder="짧은 메시지를 남겨주세요 :)"></textarea>
       </div>
       <button class="submit-btn" id="submit-btn" onclick="submitRSVP()">참석 여부 보내기</button>
-      <p class="form-msg" id="form-msg"></p>
+      <p id="form-msg" style="text-align:center; font-size:13px; margin-top:12px;"></p>
     </div>
   </div>
 
-  <!-- 참석 현황 -->
   <div class="section fade-up d4">
     <div class="section-title">참석자 현황</div>
     <div class="stats-row">
@@ -161,176 +185,53 @@ body {
       <div class="stat-card"><span class="stat-num" id="stat-attend">–</span><div class="stat-label">참석</div></div>
       <div class="stat-card"><span class="stat-num" id="stat-no">–</span><div class="stat-label">불참</div></div>
     </div>
-    <div id="response-container">
-      <div class="empty-state"><div class="empty-icon">🔄</div>불러오는 중...</div>
-    </div>
+    <div id="response-container"></div>
   </div>
 
-  <!-- 예약 -->
   <div class="section fade-up d5">
     <div class="section-title">예약 안내</div>
     <div class="reservation-card">
       <div class="res-label">예약명</div>
       <div class="res-name" id="res-name"></div>
-      <div class="res-desc">먼저 도착하시는 분은 예약 성함을 말씀하시고 편하게 계시면 됩니다. 저희는 퇴근 후 최대한 빨리 넘어갈게요! 그날 뵙겠습니다 😊</div>
+      <div class="res-desc">먼저 도착하시는 분은 예약 성함을 말씀하시고 편하게 계시면 됩니다. 퇴근 후 최대한 빨리 갈게요!</div>
     </div>
   </div>
-
   <footer>made with ♥</footer>
 </div>
 
 <script>
 var VENUE_ICONS = ['🍖','🍗','🍺','🍣','🍜','🍕','🥗','🍱'];
-
-function parseBold(str) {
-  return str.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-}
-function badgeClass(v) {
-  if (v === 'from1') return 'badge-attend';
-  if (v === 'from2') return 'badge-late';
-  if (v === 'no')    return 'badge-no';
-  return '';
-}
-function badgeLabel(v) {
-  var opt = EVENT_CONFIG.rsvp_options.find(function(o){ return o.value === v; });
-  return opt ? opt.label : v;
-}
+function parseBold(str) { return str.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>'); }
+function badgeClass(v) { return v==='no'?'badge-no':(v==='from2'?'badge-late':'badge-attend'); }
+function badgeLabel(v) { var opt = EVENT_CONFIG.rsvp_options.find(o=>o.value===v); return opt?opt.label:v; }
 function nameToEmoji(name) {
   var emojis = ['😄','😊','🙂','😎','🤗','😇','🥳','😁'];
-  var idx = 0;
-  for (var i = 0; i < name.length; i++) idx += name.charCodeAt(i);
+  var idx = 0; for (var i=0; i<name.length; i++) idx += name.charCodeAt(i);
   return emojis[idx % emojis.length];
 }
 
 function render() {
   var c = EVENT_CONFIG;
-  document.getElementById('page-title').textContent    = c.title;
-  document.getElementById('hero-title').textContent    = c.title;
+  document.getElementById('page-title').textContent = c.title;
+  document.getElementById('hero-title').textContent = c.title;
   document.getElementById('hero-subtitle').textContent = c.subtitle;
-  document.getElementById('hero-date').textContent     = c.date;
-  document.getElementById('hero-time').textContent     = c.time;
+  document.getElementById('hero-date').textContent = c.date;
+  document.getElementById('hero-time').textContent = c.time;
   document.getElementById('deadline-text').textContent = c.deadline;
-  document.getElementById('res-name').textContent      = c.reservation_name;
-  document.getElementById('intro-text').innerHTML      = parseBold(c.description);
+  document.getElementById('res-name').textContent = c.reservation_name;
+  document.getElementById('intro-text').innerHTML = parseBold(c.description);
 
-  // 장소
-  var venueHTML = '';
-  c.venues.forEach(function(v, i) {
-    var icon = v.icon || VENUE_ICONS[i % VENUE_ICONS.length];
-    venueHTML += '<div class="venue-item">' +
-      '<div class="venue-icon">' + icon + '</div>' +
-      '<div class="venue-info">' +
-        '<div class="venue-round">' + v.round + '</div>' +
-        '<div class="venue-name">' + v.name + '</div>' +
-        '<div class="venue-desc">' + v.description + '</div>' +
-      '</div>' +
-      '<a class="venue-map-btn" href="' + v.map_url + '" target="_blank" rel="noopener">📍 지도</a>' +
-    '</div>';
-    if (v.tip) {
-      venueHTML += '<div class="venue-extra venue-extra-tip">💡 <strong>' + v.tip.author + ' 픽</strong> ' + v.tip.text + '</div>';
-    }
-    if (v.warning) {
-      venueHTML += '<div class="venue-extra venue-extra-warn">⚠️ ' + v.warning + '</div>';
-    }
+  var vHTML = '';
+  c.venues.forEach((v, i) => {
+    vHTML += `<div class="venue-item">
+      <div class="venue-icon">${v.icon || VENUE_ICONS[i%8]}</div>
+      <div class="venue-info">
+        <div class="venue-round">${v.round}</div>
+        <div class="venue-name">${v.name}</div>
+        <div class="venue-desc">${v.description}</div>
+      </div>
+      <a class="venue-map-btn" href="${v.map_url}" target="_blank">📍 지도</a>
+    </div>`;
+    if(v.tip) vHTML += `<div class="venue-extra">💡 <strong>${v.tip.author} 픽:</strong> ${v.tip.text}</div>`;
   });
-  document.getElementById('venue-list').innerHTML = venueHTML;
-
-  // RSVP 옵션
-  var optHTML = '';
-  c.rsvp_options.forEach(function(o) {
-    optHTML += '<label class="rsvp-opt" onclick="selectOpt(this, \'' + o.value + '\')">' +
-      '<input type="radio" name="rsvp_status" value="' + o.value + '" />' +
-      '<span class="rsvp-opt-label">' + o.label + '</span>' +
-    '</label>';
-  });
-  document.getElementById('rsvp-options').innerHTML = optHTML;
-}
-
-function selectOpt(el, value) {
-  document.querySelectorAll('.rsvp-opt').forEach(function(o){ o.classList.remove('selected'); });
-  el.classList.add('selected');
-  el.querySelector('input').checked = true;
-}
-
-function submitRSVP() {
-  var name   = document.getElementById('rsvp-name').value.trim();
-  var status = (document.querySelector('input[name="rsvp_status"]:checked') || {}).value;
-  var msg    = document.getElementById('rsvp-msg').value.trim();
-  var msgEl  = document.getElementById('form-msg');
-  var btn    = document.getElementById('submit-btn');
-
-  if (!name)   { msgEl.style.color='#C0392B'; msgEl.textContent='성함을 입력해주세요.'; return; }
-  if (!status) { msgEl.style.color='#C0392B'; msgEl.textContent='참석 여부를 선택해주세요.'; return; }
-
-  btn.disabled = true;
-  btn.textContent = '전송 중...';
-  msgEl.textContent = '';
-
-  fetch(EVENT_CONFIG.gas_url, {
-    method: 'POST',
-    mode: 'no-cors',
-    headers: { 'Content-Type': 'text/plain' },
-    body: JSON.stringify({ event_id: EVENT_CONFIG.event_id, name: name, status: status, message: msg })
-  }).then(function() {
-    msgEl.style.color = '#1A7F37';
-    msgEl.textContent = '✅ 전송 완료! 감사합니다 😊';
-    btn.textContent = '전송 완료';
-    setTimeout(loadResponses, 2000);
-  }).catch(function() {
-    msgEl.style.color = '#C0392B';
-    msgEl.textContent = '❌ 오류가 발생했어요. 다시 시도해주세요.';
-    btn.disabled = false;
-    btn.textContent = '참석 여부 보내기';
-  });
-}
-
-// JSONP 방식으로 현황 읽기
-function loadResponses() {
-  var old = document.getElementById('__jsonp');
-  if (old) old.parentNode.removeChild(old);
-
-  window.__gasCallback = function(json) {
-    var rows = (json.data || []).filter(function(r){ return r.event_id === EVENT_CONFIG.event_id; });
-    var total  = rows.length;
-    var attend = rows.filter(function(r){ return r.status !== 'no'; }).length;
-    var no     = rows.filter(function(r){ return r.status === 'no'; }).length;
-
-    document.getElementById('stat-total').textContent  = total;
-    document.getElementById('stat-attend').textContent = attend;
-    document.getElementById('stat-no').textContent     = no;
-
-    var container = document.getElementById('response-container');
-    if (rows.length === 0) {
-      container.innerHTML = '<div class="empty-state"><div class="empty-icon">🙈</div>아직 응답이 없어요</div>';
-      return;
-    }
-    var html = '<div class="response-list">';
-    rows.forEach(function(r) {
-      html += '<div class="response-item">' +
-        '<div class="response-avatar">' + nameToEmoji(r.name || '') + '</div>' +
-        '<div class="response-info">' +
-          '<div class="response-name">' + (r.name || '-') + '</div>' +
-          (r.message ? '<div class="response-msg">' + r.message + '</div>' : '') +
-        '</div>' +
-        '<span class="status-badge ' + badgeClass(r.status) + '">' + badgeLabel(r.status) + '</span>' +
-      '</div>';
-    });
-    html += '</div>';
-    container.innerHTML = html;
-  };
-
-  var s = document.createElement('script');
-  s.id  = '__jsonp';
-  s.src = EVENT_CONFIG.gas_url + '?action=read&callback=__gasCallback&t=' + Date.now();
-  s.onerror = function() {
-    document.getElementById('response-container').innerHTML =
-      '<div class="empty-state"><div class="empty-icon">😢</div>현황을 불러오지 못했어요<br><span style="font-size:12px;color:#C7C7CC">gas_url을 확인해주세요</span></div>';
-  };
-  document.body.appendChild(s);
-}
-
-render();
-loadResponses();
-</script>
-</body>
-</html>
+  document.getElementById('venue-list').innerHTML
