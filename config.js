@@ -60,5 +60,5 @@ const EVENT_CONFIG = {
   ],
 
   // Google Apps Script 배포 URL (배포 후 여기 붙여넣기)
-  gas_url: "https://script.google.com/macros/s/AKfycbxCRAXYFKEfWHdZm5xDw0mcdP1RgPPZKlCktu5tvya9vI341nurb0lSDBAcFaMrkHQ10g/exec",
+  gas_url: "https://script.google.com/macros/s/AKfycbznckIfcljYqHBy39mh2FI1_feVVtMaECSGOhaRZFOQDNYss1LI5kYy25hYE45aBNx5/exec",
 };
